@@ -1,0 +1,12 @@
+.Item{
+    margin: 10px;
+}
+
+.Item_checkout{
+    color:white ;
+    background-color : rgb(19, 201, 28);
+    height: 40px ;
+    width: 200px ;
+    border: none;
+    font-size: 20px;
+}

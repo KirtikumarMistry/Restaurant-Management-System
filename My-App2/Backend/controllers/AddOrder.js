@@ -43,7 +43,8 @@ const AddOrder = async (req, res) => {
         // Step 3: Check if there's already an order for this table number
         let existingOrder = await Orders.findOne({ Table_Number: Table_Number });
 
-        if (existingOrder) {
+        if (existingOrder) 
+        {
             // Update existing order
             existingOrder.Items_Ordered.push(...orderedItems);
             existingOrder.Total_Amount += totalPrice;
@@ -60,7 +61,9 @@ const AddOrder = async (req, res) => {
                 message: "Order updated successfully!",
                 order: existingOrder,
             });
-        } else {
+        } 
+        else 
+        {
             // Create a new order if none exists
             const newOrder = await Orders.create({
                 Table_Number: Table_Number,

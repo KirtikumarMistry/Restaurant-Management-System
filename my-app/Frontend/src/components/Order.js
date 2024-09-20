@@ -1,10 +1,34 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Menu from './Menu.js'
 
 function Order()
 {
     let [Item_ordered, setItem_ordered]=useState([]);
     let [tableNumber, setTableNumber] = useState('');
+    const [menu, setmenu]=useState([]);
+    const [order, setorder] = useState([]);
+    const [clickordernow, setclickordernow] = useState(false);
+
+    useEffect(async() => 
+    {
+        await fetch('http://localhost:5000/getitem',{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            setmenu(data)
+            let ord=[];
+            data.map((item) => {
+                ord[`${item.name}`]=0;
+            })
+            setorder(ord);
+            console.log(data);
+        })
+        .catch(error => console.error(error));
+    }, [clickordernow]);
 
     function setitemordered(order)
     {
@@ -49,6 +73,8 @@ function Order()
             }
         })
         .catch(error => console.error(error));
+
+        setclickordernow(true);
     }
 
     return (
@@ -58,7 +84,7 @@ function Order()
                 <input type="text" className='table_number' value={tableNumber} onChange={handleTableNumberChange}></input>
             </div>
             <div>
-                <Menu itemordered={(order) => setitemordered(order)}></Menu>
+                <Menu itemordered={(order) => setitemordered(order)} menu={menu} order={order}></Menu>
             </div>
             <button  onClick={ordernow}>
                 Order Now

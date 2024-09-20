@@ -5,9 +5,15 @@ const GetTable = async (req, res) => {
     {
         const tables=await Tables.find({});
 
+        const formattedTables = tables.map((table) => ({
+            tableNumber: table.Number,
+            status: table.Status,
+          }));
+          console.log(formattedTables);
+
         res.status(201).json({
             message: "Tables fetched successfully",
-            data: tables,
+            data: formattedTables,
         })
     } 
     catch (err) {

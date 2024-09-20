@@ -5,7 +5,15 @@
   }
   
   .table-container {
-    margin-bottom: 30px;
+
+    background-color: rgb(255, 255, 255);
+    box-shadow: 10px 10px 10px rgb(116, 113, 113);
+    border-radius: 10px;
+    border: 1px solid rgb(27, 26, 26);
+    padding: 1rem;
+
+    margin-top: 5px;
+    margin-bottom: 45px;
   }
   
   table {
@@ -15,7 +23,7 @@
   }
   
   table, th, td {
-    border: 1px solid black;
+    border: 1px solid rgb(150, 145, 145);
   }
   
   th, td {
@@ -26,4 +34,50 @@
   h2 {
     margin-top: 0;
   }
+
+  .table1
+  {
+    height: 12rem;
+    width:77rem;
+    margin-left: 2rem;
+
+  }
+
+  .amount
+  {
+    margin-left: 2rem;
+  }
+
+  .t5{
+    margin-left: 2rem;
+  }
+
+  .space{
+    height:2rem;
+  }
+
+  .rows
+  {
+    height: 1rem;
+    width: 10rem;
+  }
+
+  .heading
+  {
+    text-align: center;
+    text-shadow: 2px 2px 2px rgb(150, 150, 150);
+    text-decoration: underline;
+  }
+
+  .checkout-button {
+    display: block;
+    width: 50%;
+    margin-left: 20rem;
+    padding: 15px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
   

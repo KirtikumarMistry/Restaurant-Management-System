@@ -11,7 +11,7 @@ const AddTable=async(req, res) => {
         }
         else
         {
-            res.send("1");
+            return res.send("1");
         }
 
         res.send("0");

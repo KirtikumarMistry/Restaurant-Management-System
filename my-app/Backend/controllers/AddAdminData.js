@@ -6,16 +6,7 @@ const AddAdminData=async(req, res) => {
     try{
         const {name}=req.body;
 
-        const item=await Item.find({});
-
-        let items=[];
-        item.map((it) => {
-            items.push({name : it.name, price : it.price, count : 0 , revenue : 0});
-            return it;
-        });
-        console.log(items);
-
-        const admindata=await AdminData.create({name : name, items_delivered : items});
+        const admindata=await AdminData.create({name : name});
         res.status(201).json({admindata});
     }
     catch(err)

@@ -3,13 +3,15 @@ import './App.css';
 import Tables from './components/Tables.js';
 import Order from './components/Order.js';
 import Admin from './components/Admin.js';
+import PlaceOrder from './components/PlaceOrder.js';
 
 function App() {
+  
   const [display, setdisplay]=useState(<Tables></Tables>);
 
   function customer()
   {
-    setdisplay(<Order></Order>);
+    setdisplay(<PlaceOrder></PlaceOrder>);
   }
   function manager()
   {
@@ -20,6 +22,7 @@ function App() {
     setdisplay(<Admin></Admin>)
   }
 
+  <button></button>
   return (
     <div className='App'>
       <button onClick={customer}>Customer</button>

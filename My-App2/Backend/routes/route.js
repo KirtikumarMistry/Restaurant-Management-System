@@ -7,15 +7,13 @@ const AddTable = require('../controllers/AddTable');
 const GetTable = require('../controllers/GetTables');
 const AddOrder = require('../controllers/AddOrder');
 const GetOrders = require('../controllers/GetOrders');
+const signup=require('../controllers/Signup')
+const Login=require('../controllers/Login')
+ const AdminData=require('../controllers/AdminData')
 
-
-router.get('/login', (req, res) => {
-    const user= "admin" ;
-    res.status(201).json({
-        status: true,
-        identity: "manager"
-    })
-});
+router.post('/Signup',signup)
+router.get('/AdminData',AdminData)
+router.post('/Login',Login)
 router.post('/additem', AddItem);
 router.get('/getitems', GetItem);
 router.post('/addtable', AddTable);

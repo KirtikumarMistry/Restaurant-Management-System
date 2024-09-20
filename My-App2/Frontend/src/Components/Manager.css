@@ -1,0 +1,29 @@
+/* App.css */
+.Manager {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .table-container {
+    margin-bottom: 30px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+  }
+  
+  table, th, td {
+    border: 1px solid black;
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
+  }
+  
+  h2 {
+    margin-top: 0;
+  }
+  

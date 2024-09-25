@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Red & White Tabs with Confirm Button</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .tab-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .tabs {
+            display: flex;
+            cursor: pointer;
+            background-color: #e74c3c;
+            /* Red color */
+        }
+
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            border-bottom: 4px solid transparent;
+            transition: background-color 0.3s ease, border-bottom 0.3s ease;
+        }
+
+        .tab:hover {
+            background-color: #c0392b;
+            /* Darker red on hover */
+        }
+
+        .tab.active {
+            background-color: #fff;
+            color: #e74c3c;
+            border-bottom: 4px solid #e74c3c;
+        }
+
+        .tab-content-container {
+            padding: 20px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .content-block {
+            background-color: #ffffff;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            position: relative;
+        }
+
+        .content-block:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .content-block-live {
+            background-color: #ffffff;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            position: relative;
+        }
+
+        .content-block-live:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .document-block {
+            position: relative;
+            /* Allows absolute positioning of the button */
+            border: 1px solid #ddd;
+            /* Light border */
+            padding: 20px;
+            /* Padding inside the div */
+            margin-bottom: 20px;
+            /* Space between each div */
+            background-color: #fff;
+            /* White background */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* Shadow effect */
+            border-radius: 8px;
+            /* Rounded corners */
+            transition: box-shadow 0.3s ease;
+            /* Smooth transition for shadow */
+        }
+
+        /* Hover effect to increase shadow */
+        .document-block:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            /* Bigger shadow on hover */
+        }
+
+        .complete-button {
+            position: absolute;
+            /* Allows positioning relative to .document-block */
+            bottom: 20px;
+            /* 20px from the bottom of the div */
+            right: 20px;
+            /* 20px from the right of the div */
+            padding: 10px 20px;
+            /* Button padding */
+            background-color: #f44336;
+            /* Initial button color (red) */
+            color: white;
+            /* Button text color */
+            border: none;
+            /* Remove default border */
+            border-radius: 5px;
+            /* Slightly rounded corners */
+            cursor: pointer;
+            /* Show pointer on hover */
+            transition: background-color 0.3s ease, color 0.3s ease;
+            /* Smooth color transition */
+        }
+
+        /* Change div background color to light on completion */
+        .completed-div {
+            background-color: #f0f0f0;
+            /* Lighter background when completed */
+        }
+
+        /* Change button color and text when completed */
+        .completed-button {
+            background-color: #4CAF50 !important;
+            /* Green background when completed */
+            color: white !important;
+            /* White text when completed */
+        }
+
+        h3 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+
+        p {
+            color: #7f8c8d;
+            margin: 10px 0;
+        }
+
+        /* Confirm Button */
+        .confirm-button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #e74c3c;
+            /* Red button */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            position: absolute;
+            right: 20px;
+            /* Aligns button to the right */
+            bottom: 20px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .confirm-button:hover {
+            background-color: #c0392b;
+            /* Darker red on hover */
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="tab-container">
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active" data-tab="online">Online</div>
+            <div class="tab" data-tab="live">Live</div>
+        </div>
+
+        <!-- Tab Content Container -->
+        <div class="tab-content-container">
+            <!-- Online Tab Contents -->
+            <form action="ordercompleted" method="post">
+                <div class="tab-content active" id="online">
+                    <% data.map((doc) => { %>
+                        <div class="document-block">
+                            <p><strong>Order :</strong> <%= doc.orderDetails %></p>
+                            <p><strong>Pickup Time :</strong> <%= doc.pickupTime %></p>
+                            <p><strong name="orderid">Order ID :</strong> <%= doc.orderid %></p>
+                            <button class="complete-button" onclick="markAsComplete('<%= doc.orderid %>')" 
+                                id="<%= doc.orderid %>" type="submit">Complete</button><br>
+                        </div>
+                    <% }); %>
+                </div>
+                
+            </form>
+
+            <!-- Live Tab Contents -->
+            <div class="tab-content" id="live">
+                <div class="content-block-live">
+                    <h3>Live Content Block 1</h3>
+                    <p>This is the first content block for the Live tab. You can confirm the information below.</p>
+                    <button class="confirm-button">Confirm</button>
+                </div>
+                <div class="content-block-live">
+                    <h3>Live Content Block 2</h3>
+                    <p>This is the second content block for the Live tab with additional information.</p>
+                    <button class="confirm-button">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript to switch between tabs
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs
+                tabs.forEach(t => t.classList.remove('active'));
+
+                // Add active class to clicked tab
+                tab.classList.add('active');
+
+                // Hide all tab contents
+                tabContents.forEach(content => content.classList.remove('active'));
+
+                // Show the content related to the clicked tab
+                const target = tab.getAttribute('data-tab');
+                document.getElementById(target).classList.add('active');
+            });
+        });
+
+        
+        $(document).on('click', '.complete-button', function () {
+            var rideId = $(this).data('ride-id');  // Get the ride ID from data attribute
+
+            // Disable button to prevent multiple clicks
+            var $button = $(this);
+            $button.prop('disabled', true);
+
+            $.ajax({
+                type: "POST",
+                url: '/book',
+                data: { rideId: rideId },
+                success: function (response) {
+                    UIkit.notification({
+                        message: 'Ride booked successfully!',
+                        status: 'success',
+                        pos: 'top-center',
+                        timeout: 5000
+                    });
+
+                    // Optionally update button text or disable it
+                    $button.text('Booked');
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error:', textStatus, errorThrown);  // Log error details
+                    UIkit.notification({
+                        message: 'Failed to book the ride. Please try again.',
+                        status: 'danger',
+                        pos: 'top-center',
+                        timeout: 5000
+                    });
+
+                    // Re-enable button in case of error
+                    $button.prop('disabled', false);
+                }
+            });
+        });
+    </script>
+
+    </script>
+
+</body>
+
+</html>

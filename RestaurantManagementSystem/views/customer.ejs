@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Place Your Order</title>
+    <link rel="stylesheet" href="/assets/css/customer.css">
+</head>
+
+<body>
+
+    <div class="order-container">
+        <h1>Place Your Order</h1>
+        <form id="placeorder" action="orderplaced" method="post">
+            <!-- Order Details -->
+            <div class="form-group" id="form-group">
+                <label for="order-details">Your Order:</label>
+                <textarea id="order-details" name="orderDetails" placeholder="Write your order here..."
+                    required></textarea>
+            </div>
+
+            <!-- Pickup Time -->
+            <div class="form-group">
+                <label for="pickup-time">Pickup Time:</label>
+                <input type="time" id="pickup-time" name="pickupTime" required>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-group">
+                <button type="submit" id="placeorder">Place Order</button>
+            </div>
+        </form>
+    </div>
+    <p id="responseMessage"></p>
+    <script>
+     document.getElementById('placeorder').addEventListener("click",function (event) {
+        console.log("file")
+        const order = getElementById("order-details").value
+        const time = getElementById("pickup-time").value
+        const data ={
+            orderdetails : order,
+            timedetails : time  
+        };
+        fetch('/orderplaced', {
+            "method": "POST",
+            "Content-Type": "application/JSON",
+            body: JSON.stringify(data)
+        }).then(() => { response => response.json()})
+        .then(data => {
+            console.log("data posted")
+            const newdiv = document.createElement('div')
+            newdiv.innerHTML = `<div class="form-group" id="form-group">
+                <label for="">${order}</label><br>
+                <label for="">${time}</label>
+                <textarea id="order-details" name="orderDetails" placeholder="Write your order here..."
+                ></textarea>
+            </div>`
+            newdiv.classList.add('dynamic-div');
+            newdiv.appendChild(document.getElementById('content-block'))
+        })
+    })
+    </script>
+</body>
+</html>

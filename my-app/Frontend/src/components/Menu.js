@@ -5,7 +5,29 @@ function Menu(props)
 {
     const [menu, setmenu] = useState(props.menu);
     const [order, setorder]=useState(props.order);
+
+    useEffect(async() => 
+    {
+        await fetch('http://localhost:5000/getitem',{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            setmenu(data)
+            let ord=[];
+            data.map((item) => {
+                ord[`${item.name}`]=0;
+            })
+            setorder(ord);
+            console.log(data);
+        })
+        .catch(error => console.error(error));
+    }, []);
     
+    console.log(menu);
     function cart(itemname, count)
     {
         let ord = order;

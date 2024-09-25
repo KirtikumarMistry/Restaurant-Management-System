@@ -28,7 +28,7 @@ function Order()
             console.log(data);
         })
         .catch(error => console.error(error));
-    }, [clickordernow]);
+    }, []);
 
     function setitemordered(order)
     {

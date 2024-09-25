@@ -11,7 +11,7 @@ function App() {
 
   function customer()
   {
-    setdisplay(<PlaceOrder></PlaceOrder>);
+    setdisplay(<Order></Order>);
   }
   function manager()
   {

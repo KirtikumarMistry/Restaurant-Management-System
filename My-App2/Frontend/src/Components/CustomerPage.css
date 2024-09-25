@@ -1,29 +1,56 @@
-/* App.css */
-.App {
-    padding: 20px;
-    font-family: Arial, sans-serif;
-  }
-  
-  .table-container {
-    margin-bottom: 30px;
-  }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 10px;
-  }
-  
-  table, th, td {
-    border: 1px solid black;
-  }
-  
-  th, td {
-    padding: 10px;
-    text-align: left;
-  }
-  
-  h2 {
-    margin-top: 0;
-  }
-  
+.container {
+  width: 50%;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+ul.menu-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+}
+
+.btn {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.btn-subtract {
+  background-color: #ff6b6b;
+  color: white;
+}
+
+.btn-add {
+  background-color: #4caf50;
+  color: white;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+.item-count {
+  padding: 0 10px;
+  font-size: 18px;
+  font-weight: bold;
+}

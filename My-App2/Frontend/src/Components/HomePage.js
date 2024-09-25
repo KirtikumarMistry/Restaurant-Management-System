@@ -49,9 +49,6 @@ function HomePage() {
 
     return (
         <div>
-            <button onClick={handleLogin}>
-                Fetch User Info
-            </button>
             <Manager></Manager>
         </div>
     );

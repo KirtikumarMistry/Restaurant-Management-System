@@ -9,8 +9,7 @@ const Manager = () => {
 
   useEffect(() => {
     const fetchTables = async () => {
-      try 
-      {
+      try {
         const response = await fetch('http://localhost:5000/gettables', {
           method: 'GET',
           headers: {
@@ -19,10 +18,8 @@ const Manager = () => {
         });
         const tableData = await response.json();
         console.log('Fetched data:', tableData);
-        setTables(tableData.data); 
-      } 
-      catch (err) 
-      {
+        setTables(tableData.data);
+      } catch (err) {
         console.error(err);
         setError(err.message);
       }
@@ -56,6 +53,15 @@ const Manager = () => {
     fetchOrders();
   }, []);
 
+  // Function to handle checkout, sets table status to false
+  const handleCheckout = (tableNumber) => {
+    setTables((prevTables) =>
+      prevTables.map((table) =>
+        table.tableNumber === tableNumber ? { ...table, status: false } : table
+      )
+    );
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -84,8 +90,7 @@ const Manager = () => {
             <div key={table.tableNumber} className="table-container">
               <h2 className="t5">Table {table.tableNumber}</h2>
 
-              {order 
-              ? (
+              {order ? (
                 <div>
                   <table className="table1">
                     <thead>
@@ -110,25 +115,26 @@ const Manager = () => {
                   </table>
                   <h3 className="amount">Total Amount: ${order.totalAmount.toFixed(2)}</h3>
                 </div>
-                )
-              : (
+              ) : (
                 <div>
-                  <h3 className='amount'>No orders for this table.</h3>
+                  <h3 className="amount">No orders for this table.</h3>
                 </div>
-                )
-              }
-              <button className='checkout-button'>checkout</button>
+              )}
+
+              <button
+                className="checkout-button"
+                onClick={() => handleCheckout(table.tableNumber)}
+              >
+                Checkout
+              </button>
             </div>
           );
-        }
-         
-        else 
-        {
+        } else {
           return (
             <div key={table.tableNumber} className="table-container">
               <h2 className="t5">Table {table.tableNumber}</h2>
-              <div className='amount'>
-                <h3 >Empty</h3>
+              <div className="amount">
+                <h3>Empty</h3>
               </div>
             </div>
           );

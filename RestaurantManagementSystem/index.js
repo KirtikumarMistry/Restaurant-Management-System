@@ -23,7 +23,7 @@ app.use(express.urlencoded({extended:false}))
 
 const port=process.env.PORT || 4000;
 
-const Router=require('./routes/route.js')
+const Router=require('./Backend/routers/route');
 app.use("/", Router);
 
 app.listen(port , () => {

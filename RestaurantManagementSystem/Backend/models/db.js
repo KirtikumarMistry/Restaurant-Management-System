@@ -18,6 +18,7 @@ const Userdet = mongoose.Schema({
         required:true
     }
 })
+
 const orderdet = new mongoose.Schema({
     orderDetails:{
         type:String,
@@ -35,7 +36,6 @@ const orderdet = new mongoose.Schema({
         type:String,
         
     }
-
 })
 
 

@@ -23,13 +23,16 @@ app.use(express.urlencoded({extended:false}))
 
 const port=process.env.PORT || 4000;
 
+const Router=require('./routes/route.js')
+app.use("/", Router);
+
 app.listen(port , () => {
     console.log(`Server is running on port ${port}`);
 });
 
-app.get("/",(req,res)=>{
-    res.render("food-menu-3");
-});
+// app.get("/",(req,res)=>{
+//     res.render("food-menu-3");
+// });
 
 app.post("/login",async(req,res)=>{
    

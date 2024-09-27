@@ -10,7 +10,9 @@ router.get('/', Home);
 router.get('/Home', Home);
 router.get('/Shop', Shop);
 router.get('/Blog', Blog);
-router.get('/FoodMenu', FoodMenu);
-
+router.get('/Food-Menu', FoodMenu);
+router.get('/Login', (req, res) => {
+    res.render('Login');
+})
 
 module.exports = router;

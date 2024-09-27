@@ -30,10 +30,6 @@ app.listen(port , () => {
     console.log(`Server is running on port ${port}`);
 });
 
-// app.get("/",(req,res)=>{
-//     res.render("food-menu-3");
-// });
-
 app.post("/login",async(req,res)=>{
    
     const email1 = req.body.email
@@ -68,9 +64,11 @@ app.post("/login",async(req,res)=>{
     }
    
 })
+
 app.get("/signup",(req,res)=>{
     res.render("signup")
 })
+
 app.post("/signup",async(req,res)=>{
         const newuser = {
         name : req.body.name,

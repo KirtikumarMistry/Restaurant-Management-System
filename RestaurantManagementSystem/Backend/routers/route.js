@@ -14,6 +14,7 @@ const GetItem=require('../controllers/GetItem');
 const ManagerTable=require('../controllers/ManagerTable');
 const AddTable=require('../controllers/AddTable');
 const GetTable=require('../controllers/GetTable');
+const AddOrder=require('../controllers/AddOrder');
 
 router.get('/', Home);
 router.get('/Home', Home);
@@ -32,5 +33,6 @@ router.get('/Food-Menu/GetItem', GetItem);
 router.get('/ManagerTable', ManagerTable);
 router.post('/AddTable', AddTable);
 router.get('/GetTable', GetTable);
+router.post('/AddOrder', AddOrder);
 
 module.exports = router;

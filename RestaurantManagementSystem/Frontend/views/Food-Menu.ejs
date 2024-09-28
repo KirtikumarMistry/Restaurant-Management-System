@@ -226,7 +226,100 @@
         </div>
     </div>
     <!-- End Breadcrumb -->
+    <style>
+        /* From Uiverse.io by andrew-demchenk0 */ 
+
+        .cart-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 15px;
+        }
+
+        .cart-btn {
+            background-color: #826a45;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+        }
+
+        .cart-btn:hover {
+            background-color: #826a45;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-btn:active {
+            transform: translateY(1px);
+            box-shadow: none;
+        }
+
+        #item-count {
+            font-size: 20px;
+            color: #826a45;
+            min-width: 40px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .cart {
+                padding: 20px;
+                margin: 40px auto;
+            }
+
+            .cart h3 {
+                font-size: 22px;
+            }
+
+            .cart-controls {
+                padding: 8px;
+            }
+
+            .cart-btn {
+                padding: 7px 10px;
+                font-size: 15px;
+            }
+
+            #item-count {
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .cart-controls {
+                padding: 6px;
+            }
+
+            .cart-btn {
+                padding: 6px 10px;
+                font-size: 14px;
+            }
+
+            #item-count {
+                font-size: 16px;
+            }
+        }
+
+    </style>
     <script>
+        // Function to update the count of a specific item
+        const updateCount = (itemCountElement, increment) => {
+            let count = parseInt(itemCountElement.textContent);
+            count += increment;
+            if (count < 0) count = 0; // Prevent negative count
+            itemCountElement.textContent = count;
+        };
+
+        // Fetch item data and dynamically create the food items
         const fetchItemData = async () => {
             try {
                 const response = await fetch('http://localhost:5000/Food-Menu/GetItem', {
@@ -237,16 +330,17 @@
                 });
                 const responseFormat = await response.json();
                 const itemData = responseFormat.data;
-    
+
                 if (itemData && itemData.length > 0) {
                     const container = document.querySelector('.food-category-area .row');
                     container.innerHTML = ''; // Clear existing items
-    
+                    let totalcount = 0;
+
                     itemData.forEach((item) => {
                         // Create a new item div
                         const foodItemDiv = document.createElement('div');
                         foodItemDiv.classList.add('col-xl-3', 'col-lg-6', 'col-md-6');
-    
+
                         // Create the HTML structure
                         foodItemDiv.innerHTML = `
                             <div class="food-category-item">
@@ -257,20 +351,41 @@
                                     <h4><a href="#">${item.name}</a></h4>
                                     <p>${item.description || 'No description available'}</p>
                                     <h5>Rs. ${item.price}</h5>
-                                    <a href="#" class="btn-read-more">Order Now <i class="fas fa-arrow-right"></i></a>
+                                    <div class="cart-controls">
+                                        <button class="cart-btn increase-btn">+</button>
+                                        <span class="item-count" id="item-count-${totalcount}">0</span>
+                                        <button class="cart-btn decrease-btn">-</button>
+                                    </div>
                                 </div>
                             </div>
                         `;
-    
+                        ++totalcount;
+
                         // Append the new item to the container
                         container.appendChild(foodItemDiv);
+                    });
+
+                    // After adding the items, attach event listeners to the increase and decrease buttons
+                    document.querySelectorAll('.increase-btn').forEach((button, index) => {
+                        button.addEventListener('click', () => {
+                            const itemCountElement = document.getElementById(`item-count-${index}`);
+                            updateCount(itemCountElement, 1);
+                        });
+                    });
+
+                    document.querySelectorAll('.decrease-btn').forEach((button, index) => {
+                        button.addEventListener('click', () => {
+                            const itemCountElement = document.getElementById(`item-count-${index}`);
+                            updateCount(itemCountElement, -1);
+                        });
                     });
                 }
             } catch (err) {
                 console.error(err);
             }
         };
-    
+
+        // Call the function to fetch and display the items
         fetchItemData();
     </script>    
     <!-- Start Food Category 
@@ -297,6 +412,21 @@
 
                 <!-- Food items will be dynamically injected here -->
             </div>
+            <!-- Pagination -->
+            <div class="row">
+                <div class="col-md-12 pagi-area text-center">
+                    <nav aria-label="navigation">
+                        <ul class="pagination">
+                            <li class="page-item"></li>
+                            <li class="page-item active">
+                                <a class="page-link" href="Food-Menu" id="order-now-btn">Order Now</a>
+                            </li>
+                            <li class="page-item"></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <!-- End Pagination -->
         </div>
     </div>
     <!-- End Food Category -->
@@ -698,6 +828,51 @@
     <script src="assets/js/ScrollTrigger.min.js"></script>
     <script src="assets/js/bootstrap-datepicker.js"></script>
     <script src="assets/js/main.js"></script>
-
+    <script>
+        document.getElementById('order-now-btn').addEventListener('click', async (e) => {
+            e.preventDefault(); // Prevent default behavior of the link
+    
+            // Gather item data
+            const items = [];
+            document.querySelectorAll('.food-category-item').forEach((itemElement, index) => {
+                const itemName = itemElement.querySelector('h4 a').textContent; // Get item name
+                const itemCount = parseInt(document.getElementById(`item-count-${index}`).textContent); // Get item count
+    
+                if (itemCount > 0) { // Only send items with count > 0
+                    items.push({ Name:itemName, Quantity: itemCount });
+                }
+            });
+    
+            if (items.length > 0) {
+                try 
+                {
+                    // Send the data to the /AddItemOrdered endpoint
+                    const response = await fetch('http://localhost:5000/AddOrder', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ Items_Ordered : items }), // Send the gathered items as JSON
+                    });
+                    const responseData = await response.json();
+                    console.log(responseData.message);
+    
+                    if (responseData.success) {
+                        console.log(responseData.order);
+                        alert('Order placed successfully!');
+                    } else {
+                        alert('Failed to place order.');
+                    }
+                } 
+                catch (err) 
+                {
+                    console.error('Error:', err);
+                    alert('An error occurred while placing the order.');
+                }
+            } else {
+                alert('No items selected.');
+            }
+        });
+    </script>
 </body>
 </html>

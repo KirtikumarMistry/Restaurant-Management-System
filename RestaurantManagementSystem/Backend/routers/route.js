@@ -11,6 +11,9 @@ const ChefDeatils = require('../controllers/ChefDetails');
 const FoodGallery=require('../controllers/FoodGallery');
 const AddItem=require('../controllers/AddItem');
 const GetItem=require('../controllers/GetItem');
+const ManagerTable=require('../controllers/ManagerTable');
+const AddTable=require('../controllers/AddTable');
+const GetTable=require('../controllers/GetTable');
 
 router.get('/', Home);
 router.get('/Home', Home);
@@ -26,5 +29,8 @@ router.get('/ChefDetails', ChefDeatils);
 router.get('/FoodGallery', FoodGallery);
 router.post('/AddItem', AddItem);
 router.get('/Food-Menu/GetItem', GetItem);
+router.get('/ManagerTable', ManagerTable);
+router.post('/AddTable', AddTable);
+router.get('/GetTable', GetTable);
 
 module.exports = router;

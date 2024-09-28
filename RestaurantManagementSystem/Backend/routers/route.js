@@ -24,7 +24,7 @@ const DeleteTable=require('../controllers/DeleteTable')
 const UpdatedTable=require('../controllers/UpdateTable')
 const DeleteItem=require('../controllers/DeleteItem');
 const UpdateItem = require('../controllers/UpdateItem');
-
+const AddOrder=require('../controllers/AddOrder');
 
 router.get('/', Home);
 router.get('/Home', Home);
@@ -45,6 +45,8 @@ router.get('/admin',Admin);
 router.put('/admin/tables/:tableId',UpdatedTable)
 router.delete('/admin/items/:itemId',DeleteItem)
 router.put('/admin/items/:itemId',UpdateItem)
+router.post('/AddOrder', AddOrder);
+
 
 
 router.get("/Login", (req, res) => {

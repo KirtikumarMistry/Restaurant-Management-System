@@ -20,5 +20,8 @@
     "uuid": "^10.0.0"
   },
   "keywords": [],
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "tailwindcss": "^3.4.13"
+  }
 }

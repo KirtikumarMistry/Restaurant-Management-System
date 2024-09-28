@@ -1,0 +1,154 @@
+/* General reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body, html {
+    font-family: Arial, sans-serif;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f4f8;
+  }
+  
+  /* Flex container */
+  .flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .h-screen {
+    height: 100vh;
+  }
+  
+  .w-full {
+    width: 100%;
+  }
+  
+  .container {
+    max-width: 400px;
+    width: 100%;
+  }
+  
+  /* Form container */
+  .bg-white {
+    background-color: white;
+  }
+  
+  .p-6 {
+    padding: 24px;
+  }
+  
+  .rounded-lg {
+    border-radius: 12px;
+  }
+  
+  .shadow-lg {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .w-80 {
+    width: 320px;
+  }
+  
+  /* Form elements */
+  .mb-4 {
+    margin-bottom: 20px;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  .text-start {
+    text-align: left;
+  }
+  
+  .text-gray-800 {
+    color: #333333;
+  }
+  
+  .text-gray-700 {
+    color: #4a4a4a;
+  }
+  
+  .text-gray-600 {
+    color: #6b7280;
+  }
+  
+  .text-red-600 {
+    color: #e3342f;
+  }
+  
+  .text-blue-500 {
+    color: #3b82f6;
+  }
+  
+  .font-bold {
+    font-weight: bold;
+  }
+  
+  .font-semibold {
+    font-weight: 600;
+  }
+  
+  .text-2xl {
+    font-size: 1.5rem;
+  }
+  
+  .mt-4 {
+    margin-top: 16px;
+  }
+  
+  .mt-2 {
+    margin-top: 8px;
+  }
+  
+  /* Input styles */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    outline: none;
+  }
+  
+  input:focus {
+    border-color: #3b82f6;
+  }
+  
+  /* Button */
+  button {
+    width: 100%;
+    padding: 12px;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #2563eb;
+  }
+  
+  a {
+    color: #3b82f6;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  .mb-3{
+    margin-bottom: 16px;
+  }
+
+  

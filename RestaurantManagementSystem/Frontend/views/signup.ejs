@@ -1,82 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/assets/css/login.css">
-    <title>Document</title>
-</head>
-<body>
-    
 
-<form autocomplete='off' class='form' action="signup" method="post">
-    <div class='control'>
-        <h1>
-            Sign Up
-        </h1>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="/assets/css/signup.css"> 
+  <script src="https://unpkg.com/react-hot-toast/dist/react-hot-toast.umd.js"></script>
+</head>
+
+<body>
+  <div class="flex justify-center items-center h-screen">
+    <div class="container flex justify-center items-center w-full">
+      <div class="bg-white p-6 rounded-lg shadow-lg w-80">
+        <h1 class="text-center mb-6 text-2xl font-bold text-gray-800">Sign Up</h1>
+        <form action="/signup" method="POST">
+          <div class="mb-4">
+            <label for="name" class="block mb-1 text-gray-700 text-start font-semibold">Name</label>
+            <input type="text" id="name" name="name" value="<%= userdata.name %>" placeholder="Enter your name" required>
+          </div>
+          <div class="mb-4">
+            <label for="email" class="block mb-1 text-gray-700 text-start font-semibold">Email</label>
+            <input type="email" id="email" name="email" value="<%= userdata.email %>" placeholder="Enter your email" required>
+          </div>
+          <div class="mb-4">
+            <label for="password" class="block mb-1 text-gray-700 text-start font-semibold">Password</label>
+            <input type="password" id="password" name="password" value="<%= userdata.password %>" placeholder="Enter your password" required>
+          </div>
+          <div class="mb-4">
+            <label for="confirm-password" class="block mb-1 text-gray-700 text-start font-semibold">Confirm Password</label>
+            <input type="password" id="confirm-password" name="confirmpassword" value="<%= userdata.confirmpassword %>" placeholder="Confirm your password" required class="mb-3">
+            <div class="mb-4">
+                <label for="name" class="block mb-1 text-gray-700 text-start font-semibold">PhoneNumber</label>
+                <input type="text" id="contactNumber" name="contactNumber" value="<%= userdata.contactNumber %>" placeholder="Enter your Phone number" required>
+              </div>
+            <% if (data.success) { %>
+              <p class="text-red-600 mt-2"><%= data.message %></p>
+            <% } %>
+          </div>
+          <button type="submit" id="signup-btn">Sign Up</button>
+        </form>
+        <p class="text-center mt-4 text-gray-600">Already have an account?
+          <a href="/" class="text-blue-500 hover:underline">Log In</a>
+        </p>
+      </div>
     </div>
-    <div class='control block-cube block-input'>
-        <input name='name' placeholder='Full Name' type='text'>
-        <div class='bg-top'>
-            <div class='bg-inner'></div>
-        </div>
-        <div class='bg-right'>
-            <div class='bg-inner'></div>
-        </div>
-        <div class='bg'>
-            <div class='bg-inner'></div>
-        </div>
-    </div>
-    <div class='control block-cube block-input'>
-        <input name='email' placeholder='Email' type='email'>
-        <div class='bg-top'>
-            <div class='bg-inner'></div>
-        </div>
-        <div class='bg-right'>
-            <div class='bg-inner'></div>
-        </div>
-        <div class='bg'>
-            <div class='bg-inner'></div>
-        </div>
-    </div>
-    <div class='control block-cube block-input'>
-        <input name='password' placeholder='Password' type='password'>
-        <div class='bg-top'>
-            <div class='bg-inner'></div>
-        </div>
-        <div class='bg-right'>
-            <div class='bg-inner'></div>
-        </div>
-        <div class='bg'>
-            <div class='bg-inner'></div>
-        </div>
-    </div>
-    <div class='control block-cube block-input'>
-        <input name='confirmpassword' placeholder='Confirm Password' type='password'>
-        <div class='bg-top'>
-            <div class='bg-inner'></div>
-        </div>
-        <div class='bg-right'>
-            <div class='bg-inner'></div>
-        </div>
-        <div class='bg'>
-            <div class='bg-inner'></div>
-        </div>
-    </div>
-    <button class='btn block-cube block-cube-hover' type='submit'>
-        <div class='bg-top'>
-            <div class='bg-inner'></div>
-        </div>
-        <div class='bg-right'>
-            <div class='bg-inner'></div>
-        </div>
-        <div class='bg'>
-            <div class='bg-inner'></div>
-        </div>
-        <div class='text'>
-            Sign Up
-        </div>
-    </button>
-</form>
+  </div>
 </body>
+
 </html>

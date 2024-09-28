@@ -13,7 +13,7 @@ const Userdet = mongoose.Schema({
         type:String,
         required:true
     },
-    confirmpassword:{
+    contactNumber:{
         type:String,
         required:true
     }

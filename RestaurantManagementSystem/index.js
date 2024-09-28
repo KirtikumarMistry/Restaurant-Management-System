@@ -23,12 +23,13 @@ app.use(express.urlencoded({extended:false}))
 
 const port=process.env.PORT || 4000;
 
+const Router=require('./Backend/routers/route');
+app.use("/", Router);
+
 app.listen(port , () => {
     console.log(`Server is running on port ${port}`);
 });
-const router=require('../RestaurantManagementSystem/Backend/routes/route')
+const router=require('./Backend/routers/route')
 app.use(router)
-app.listen(3000,()=>{
-    console.log("port connected")
-})
+
 

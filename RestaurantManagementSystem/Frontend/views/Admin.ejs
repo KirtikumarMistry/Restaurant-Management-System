@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Restaurant Management System</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Restaurant Admin Dashboard</h1>
+
+        <!-- Table Management -->
+        <h2>Manage Tables</h2>
+        <form id="addTableForm">
+            <div class="form-group">
+                <label for="tableName">Table Name:</label>
+                <input type="text" class="form-control" id="tableName" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Table</button>
+        </form>
+        
+        <h3 class="mt-4">Existing Tables</h3>
+        <ul id="tablesList" class="list-group">
+            <% tables.forEach(table => { %>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span><%= table.name %></span>
+                    <div>
+                        <button class="btn btn-danger btn-sm deleteTable" data-id="<%= table._id %>">Delete</button>
+                        <button class="btn btn-warning btn-sm updateTable" data-id="<%= table._id %>" data-name="<%= table.name %>">Update</button>
+                    </div>
+                </li>
+            <% }) %>
+        </ul>
+
+        <!-- Item Management -->
+        <h2 class="mt-5">Manage Menu Items</h2>
+        <form id="addItemForm">
+            <div class="form-group">
+                <label for="itemName">Item Name:</label>
+                <input type="text" class="form-control" id="itemName" required>
+            </div>
+            <div class="form-group">
+                <label for="itemPrice">Item Price:</label>
+                <input type="number" class="form-control" id="itemPrice" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Item</button>
+        </form>
+
+        <h3 class="mt-4">Existing Menu Items</h3>
+        <ul id="itemsList" class="list-group">
+            <% items.forEach(item => { %>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span><%= item.name %> - $<%= item.price.toFixed(2) %></span>
+                    <div>
+                        <button class="btn btn-danger btn-sm deleteItem" data-id="<%= item._id %>">Delete</button>
+                        <button class="btn btn-warning btn-sm updateItem" data-id="<%= item._id %>" data-name="<%= item.name %>" data-price="<%= item.price %>">Update</button>
+                    </div>
+                </li>
+            <% }) %>
+        </ul>
+    </div>
+
+    <script>
+        // Handle adding tables
+        document.getElementById('addTableForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const tableName = document.getElementById('tableName').value;
+
+            fetch('/admin/tables', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name: tableName })
+            })
+            .then(response => response.json())
+            .then(data => {
+                location.reload();
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        // Handle deleting tables
+        document.querySelectorAll('.deleteTable').forEach(button => {
+            button.addEventListener('click', function() {
+                const tableId = this.getAttribute('data-id');
+                fetch(`/admin/tables/${tableId}`, {
+                    method: 'DELETE',
+                })
+                .then(response => response.json())
+                .then(data => {
+                    location.reload();
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        });
+
+        // Handle updating tables
+        document.querySelectorAll('.updateTable').forEach(button => {
+            button.addEventListener('click', function() {
+                const tableId = this.getAttribute('data-id');
+                const newName = prompt("Enter new table name:", this.getAttribute('data-name'));
+                if (newName) {
+                    fetch(`/admin/tables/${tableId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ name: newName })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        location.reload();
+                    })
+                    .catch(error => console.error('Error:', error));
+                }
+            });
+        });
+
+        // Handle adding items
+        document.getElementById('addItemForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const itemName = document.getElementById('itemName').value;
+            const itemPrice = document.getElementById('itemPrice').value;
+
+            fetch('/admin/items', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name: itemName, price: itemPrice })
+            })
+            .then(response => response.json())
+            .then(data => {
+                location.reload();
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        // Handle deleting items
+        document.querySelectorAll('.deleteItem').forEach(button => {
+            button.addEventListener('click', function() {
+                const itemId = this.getAttribute('data-id');
+                fetch(`/admin/items/${itemId}`, {
+                    method: 'DELETE',
+                })
+                .then(response => response.json())
+                .then(data => {
+                    location.reload();
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        });
+
+        // Handle updating items
+        document.querySelectorAll('.updateItem').forEach(button => {
+            button.addEventListener('click', function() {
+                const itemId = this.getAttribute('data-id');
+                const newName = prompt("Enter new item name:", this.getAttribute('data-name'));
+                const newPrice = prompt("Enter new item price:", this.getAttribute('data-price'));
+                if (newName && newPrice) {
+                    fetch(`/admin/items/${itemId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ name: newName, price: newPrice })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        location.reload();
+                    })
+                    .catch(error => console.error('Error:', error));
+                }
+            });
+        });
+    </script>
+</body>
+</html>

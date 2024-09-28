@@ -14,25 +14,27 @@ body, html {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  padding: 1rem;
 }
 
 /* Login box styling */
 .login-box {
   background-color: #fff;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 320px;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
   width: 100%;
+  transition: all 0.3s ease;
 }
 
 /* Form title styling */
 h1 {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: 700;
   color: #333;
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 /* Form styling */
@@ -44,11 +46,11 @@ form {
 input[type="email"],
 input[type="password"] {
   width: 100%;
-  padding: 0.75rem;
+  padding: 0.85rem;
   margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
   border: 1px solid #ccc;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 1rem;
   transition: border-color 0.3s ease;
 }
@@ -61,7 +63,7 @@ input[type="password"]:focus {
 
 /* Label styling */
 label {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: #555;
   display: block;
   margin-bottom: 0.3rem;
@@ -70,11 +72,11 @@ label {
 /* Button styling */
 button {
   width: 100%;
-  padding: 0.75rem;
+  padding: 0.85rem;
   background-color: #007bff;
   color: #fff;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -117,7 +119,38 @@ a:hover {
 /* Mobile Responsiveness */
 @media (max-width: 600px) {
   .login-box {
-    width: 90%;
-    padding: 1rem;
+    width: 100%;
+    padding: 1.5rem;
+    border-radius: 8px;
   }
+  
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  button {
+    padding: 0.75rem;
+  }
+
+  input[type="email"],
+  input[type="password"] {
+    padding: 0.7rem;
+  }
+}
+
+/* Tablet Responsiveness */
+@media (max-width: 768px) {
+  .login-box {
+    max-width: 350px;
+  }
+}
+
+/* Larger Screens */
+@media (min-width: 1200px) {
+  .login-box {
+    max-width: 420px;
+  }
+}
+.text-center{
+  text-align: center;
 }

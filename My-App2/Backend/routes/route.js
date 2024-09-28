@@ -9,7 +9,7 @@ const AddOrder = require('../controllers/AddOrder');
 const GetOrders = require('../controllers/GetOrders');
 const signup=require('../controllers/Signup')
 const Login=require('../controllers/Login')
- const AdminData=require('../controllers/AdminData')
+const AdminData=require('../controllers/AdminData')
 
 router.post('/Signup',signup)
 router.get('/AdminData',AdminData)

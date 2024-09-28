@@ -158,59 +158,34 @@
                     </button>
                     
                     <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle active" data-toggle="dropdown" >Home</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="index.html">Home Version One</a></li>
-                                <li><a href="index-2.html">Home Version Two</a></li>
-                                <li><a href="index-3.html">Home Version Three</a></li>
-                                <li><a href="index-4.html">Home Version Four</a></li>
-                                <li><a href="index-5.html">Home Version Five</a></li>
-                            </ul>
+                        <li>
+                            <a href="Home" class="dropdown-toggle active">Home</a>
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" >Pages</a>
                             <ul class="dropdown-menu">
-                                <li><a href="about-us.html">About Us</a></li>
+                                <li><a href="AboutUs">About Us</a></li>
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" >Our Chef</a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="chef.html">Chef Style One</a></li>
-                                        <li><a href="chef-details.html">Chef Details</a></li>
+                                        <li><a href="Chef">Chef</a></li>
+                                        <li><a href="ChefDetails">Chef Details</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="gallery.html">Food Gallery</a></li>
+                                <li><a href="FoodGallery">Food Gallery</a></li>
                                 <li><a href="reservation.html">Reservation</a></li>
                                 <li><a href="contact.html">Contact Us</a></li>
                                 <li><a href="404.html">Error Page</a></li>
                             </ul>
                         </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" >Menu</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="food-menu.html">Menu Style One</a></li>
-                                <li><a href="food-menu-2.html">Menu Style Two</a></li>
-                                <li><a href="food-menu-3.html">Menu Style Three</a></li>
-                            </ul>
+                        <li>
+                            <a href="Food-Menu" class="dropdown-toggle" data-toggle="dropdown">Menu</a>
                         </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" >Blog</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="blog-standard.html">Blog Standard</a></li>
-                                <li><a href="blog-with-sidebar.html">Blog With Sidebar</a></li>
-                                <li><a href="blog-2-colum.html">Blog Grid Two Colum</a></li>
-                                <li><a href="blog-3-colum.html">Blog Grid Three Colum</a></li>
-                                <li><a href="blog-single.html">Blog Single</a></li>
-                                <li><a href="blog-single-with-sidebar.html">Blog Single With Sidebar</a></li>
-                            </ul>
+                        <li>
+                            <a href="Blog" class="dropdown-toggle" data-toggle="dropdown">Blog</a>
                         </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" >Shop</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="shop.html">Shop</a></li>
-                                <li><a href="shop-single.html">Shop Single</a></li>
-                                <li><a href="shop-single-thumb-only.html">Shop Single Two</a></li>
-                            </ul>
+                        <li>
+                            <a href="Shop" class="dropdown-toggle" data-toggle="dropdown">Shop</a>
                         </li>
                     </ul>
                 </div><!-- /.navbar-collapse -->
@@ -243,7 +218,7 @@
                 <div class="col-lg-12 col-md-12">
                     <h1>Restaurant Food Menu</h1>
                     <ul class="breadcrumb">
-                        <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="Home"><i class="fas fa-home"></i> Home</a></li>
                         <li>Menu</li>
                     </ul>
                 </div>
@@ -251,228 +226,76 @@
         </div>
     </div>
     <!-- End Breadcrumb -->
-
+    <script>
+        const fetchItemData = async () => {
+            try {
+                const response = await fetch('http://localhost:5000/Food-Menu/GetItem', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                const responseFormat = await response.json();
+                const itemData = responseFormat.data;
+    
+                if (itemData && itemData.length > 0) {
+                    const container = document.querySelector('.food-category-area .row');
+                    container.innerHTML = ''; // Clear existing items
+    
+                    itemData.forEach((item) => {
+                        // Create a new item div
+                        const foodItemDiv = document.createElement('div');
+                        foodItemDiv.classList.add('col-xl-3', 'col-lg-6', 'col-md-6');
+    
+                        // Create the HTML structure
+                        foodItemDiv.innerHTML = `
+                            <div class="food-category-item">
+                                <div class="thumb">
+                                    <img src="${item.image || 'assets/img/800x600.png'}" alt="Image Not Found">
+                                </div>
+                                <div class="info">
+                                    <h4><a href="#">${item.name}</a></h4>
+                                    <p>${item.description || 'No description available'}</p>
+                                    <h5>Rs. ${item.price}</h5>
+                                    <a href="#" class="btn-read-more">Order Now <i class="fas fa-arrow-right"></i></a>
+                                </div>
+                            </div>
+                        `;
+    
+                        // Append the new item to the container
+                        container.appendChild(foodItemDiv);
+                    });
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        };
+    
+        fetchItemData();
+    </script>    
     <!-- Start Food Category 
     ============================================= -->
     <div class="food-category-area default-padding bottom-less" style="background-image: url(assets/img/shape/16.png);">
         <div class="container">
             <div class="row">
                 <!-- Single Item -->
-                <div class="col-xl-3 col-lg-6 col-md-6">
+                <!-- <div class="col-xl-3 col-lg-6 col-md-6">
                     <div class="food-category-item">
                         <div class="thumb">
-                            <img src="assets/img/800x600.png" alt="Image Not Found">
+                            <img src="https://cookingfromheart.com/wp-content/uploads/2017/03/Paneer-Tikka-Masala-4.jpg" alt="Image Not Found">
                         </div>
                         <div class="info">
-                            <div class="food-review">
-                                <div class="reviewer-avatar">
-                                    <img src="assets/img/100x100.png" alt="Image Not Found">
-                                    <img src="assets/img/100x100.png" alt="Image Not Found">
-                                    <img src="assets/img/100x100.png" alt="Image Not Found">
-                                </div>
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    5.0
-                                </div>
-                            </div>
-                            <h4><a href="#">Pizza Slice</a></h4>
+                            <h4><a href="#">Loading...</a></h4> 
                             <p>
-                                Cheese, Ham & Pineapple
+                                Loading description...
                             </p>
                             <a href="#" class="btn-read-more">Order Now <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- End Single Item -->
-                <!-- Single Item -->
-                <div class="col-xl-3 col-lg-6 col-md-6">
-                    <div class="food-category-item">
-                        <div class="thumb">
-                            <img src="assets/img/800x600.png" alt="Image Not Found">
-                        </div>
-                        <div class="info">
-                            <div class="food-review">
-                                <div class="reviewer-avatar">
-                                    <img src="assets/img/100x100.png" alt="Image Not Found">
-                                    <img src="assets/img/100x100.png" alt="Image Not Found">
-                                    <img src="assets/img/100x100.png" alt="Image Not Found">
-                                </div>
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    4.8
-                                </div>
-                            </div>
-                            <h4><a href="#">Cheese Burger</a></h4>
-                            <p>
-                                Cheese, Ham & Pineapple
-                            </p>
-                            <a href="#" class="btn-read-more">Order Now <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Single Item -->
-                <!-- Single Item -->
-                <div class="col-xl-3 col-lg-6 col-md-6">
-                    <div class="food-category-item">
-                        <div class="thumb">
-                            <img src="assets/img/800x600.png" alt="Image Not Found">
-                        </div>
-                        <div class="info">
-                            <div class="food-review">
-                                <div class="reviewer-avatar">
-                                    <img src="assets/img/100x100.png" alt="Image Not Found">
-                                    <img src="assets/img/100x100.png" alt="Image Not Found">
-                                    <img src="assets/img/100x100.png" alt="Image Not Found">
-                                </div>
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    4.5
-                                </div>
-                            </div>
-                            <h4><a href="#">Chicken Paradise</a></h4>
-                            <p>
-                                Cheese, Ham & Pineapple
-                            </p>
-                            <a href="#" class="btn-read-more">Order Now <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Single Item -->
-                <!-- Single Item -->
-                <div class="col-xl-3 col-lg-6 col-md-6">
-                    <div class="food-category-item">
-                        <div class="thumb">
-                            <img src="assets/img/800x600.png" alt="Image Not Found">
-                        </div>
-                        <div class="info">
-                            <div class="food-review">
-                                <div class="reviewer-avatar">
-                                    <img src="assets/img/100x100.png" alt="Image Not Found">
-                                    <img src="assets/img/100x100.png" alt="Image Not Found">
-                                    <img src="assets/img/100x100.png" alt="Image Not Found">
-                                </div>
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    5.0
-                                </div>
-                            </div>
-                            <h4><a href="#">Shawarma</a></h4>
-                            <p>
-                                Cheese, Ham & Pineapple
-                            </p>
-                            <a href="#" class="btn-read-more">Order Now <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Single Item -->
-                <!-- Single Item -->
-                <div class="col-xl-3 col-lg-6 col-md-6">
-                    <div class="food-category-item">
-                        <div class="thumb">
-                            <img src="assets/img/800x600.png" alt="Image Not Found">
-                        </div>
-                        <div class="info">
-                            <div class="food-review">
-                                <div class="reviewer-avatar">
-                                    <img src="assets/img/100x100.png" alt="Image Not Found">
-                                    <img src="assets/img/100x100.png" alt="Image Not Found">
-                                    <img src="assets/img/100x100.png" alt="Image Not Found">
-                                </div>
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    4.7
-                                </div>
-                            </div>
-                            <h4><a href="#">Salmon Steak</a></h4>
-                            <p>
-                                Cheese, Ham & Pineapple
-                            </p>
-                            <a href="#" class="btn-read-more">Order Now <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Single Item -->
-                <!-- Single Item -->
-                <div class="col-xl-3 col-lg-6 col-md-6">
-                    <div class="food-category-item">
-                        <div class="thumb">
-                            <img src="assets/img/800x600.png" alt="Image Not Found">
-                        </div>
-                        <div class="info">
-                            <div class="food-review">
-                                <div class="reviewer-avatar">
-                                    <img src="assets/img/100x100.png" alt="Image Not Found">
-                                    <img src="assets/img/100x100.png" alt="Image Not Found">
-                                    <img src="assets/img/100x100.png" alt="Image Not Found">
-                                </div>
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    5.0
-                                </div>
-                            </div>
-                            <h4><a href="#">Fries McDonald's</a></h4>
-                            <p>
-                                Cheese, Ham & Pineapple
-                            </p>
-                            <a href="#" class="btn-read-more">Order Now <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Single Item -->
-                <!-- Single Item -->
-                <div class="col-xl-3 col-lg-6 col-md-6">
-                    <div class="food-category-item">
-                        <div class="thumb">
-                            <img src="assets/img/800x600.png" alt="Image Not Found">
-                        </div>
-                        <div class="info">
-                            <div class="food-review">
-                                <div class="reviewer-avatar">
-                                    <img src="assets/img/100x100.png" alt="Image Not Found">
-                                    <img src="assets/img/100x100.png" alt="Image Not Found">
-                                    <img src="assets/img/100x100.png" alt="Image Not Found">
-                                </div>
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    4.8
-                                </div>
-                            </div>
-                            <h4><a href="#">Chocolate chip</a></h4>
-                            <p>
-                                Cheese, Ham & Pineapple
-                            </p>
-                            <a href="#" class="btn-read-more">Order Now <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Single Item -->
-                <!-- Single Item -->
-                <div class="col-xl-3 col-lg-6 col-md-6">
-                    <div class="food-category-item">
-                        <div class="thumb">
-                            <img src="assets/img/800x600.png" alt="Image Not Found">
-                        </div>
-                        <div class="info">
-                            <div class="food-review">
-                                <div class="reviewer-avatar">
-                                    <img src="assets/img/100x100.png" alt="Image Not Found">
-                                    <img src="assets/img/100x100.png" alt="Image Not Found">
-                                    <img src="assets/img/100x100.png" alt="Image Not Found">
-                                </div>
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    4.3
-                                </div>
-                            </div>
-                            <h4><a href="#">Meatballs Pasta</a></h4>
-                            <p>
-                                Cheese, Ham & Pineapple
-                            </p>
-                            <a href="#" class="btn-read-more">Order Now <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Single Item -->
+
+                <!-- Food items will be dynamically injected here -->
             </div>
         </div>
     </div>

@@ -156,11 +156,3 @@ app.post("/ordercompleted",async(req,res)=>{
     }
     
 })
-   
-    
-
-
-app.listen(3000,()=>{
-    console.log("port connected")
-})
-

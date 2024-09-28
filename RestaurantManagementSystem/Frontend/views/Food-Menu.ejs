@@ -218,7 +218,7 @@
                 <div class="col-lg-12 col-md-12">
                     <h1>Restaurant Food Menu</h1>
                     <ul class="breadcrumb">
-                        <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="Home"><i class="fas fa-home"></i> Home</a></li>
                         <li>Menu</li>
                     </ul>
                 </div>
@@ -227,166 +227,75 @@
     </div>
     <!-- End Breadcrumb -->
     <script>
-        const fetchitemdata = async (req, res) => {
-            try 
-            {
+        const fetchItemData = async () => {
+            try {
                 const response = await fetch('http://localhost:5000/Food-Menu/GetItem', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                 });
-                const responseformat = await response.json();
-                const itemData= await responseformat.data;
-                console.log('Fetched data:', itemData[0].name);
-
-                if (itemData && itemData.length > 0) 
-                {
-                    document.querySelector('.info h4 a').innerText = itemData[0].name;
-                    document.querySelector('.info p').innerText = itemData[0].description || 'No description available';
+                const responseFormat = await response.json();
+                const itemData = responseFormat.data;
+    
+                if (itemData && itemData.length > 0) {
+                    const container = document.querySelector('.food-category-area .row');
+                    container.innerHTML = ''; // Clear existing items
+    
+                    itemData.forEach((item) => {
+                        // Create a new item div
+                        const foodItemDiv = document.createElement('div');
+                        foodItemDiv.classList.add('col-xl-3', 'col-lg-6', 'col-md-6');
+    
+                        // Create the HTML structure
+                        foodItemDiv.innerHTML = `
+                            <div class="food-category-item">
+                                <div class="thumb">
+                                    <img src="${item.image || 'assets/img/800x600.png'}" alt="Image Not Found">
+                                </div>
+                                <div class="info">
+                                    <h4><a href="#">${item.name}</a></h4>
+                                    <p>${item.description || 'No description available'}</p>
+                                    <h5>Rs. ${item.price}</h5>
+                                    <a href="#" class="btn-read-more">Order Now <i class="fas fa-arrow-right"></i></a>
+                                </div>
+                            </div>
+                        `;
+    
+                        // Append the new item to the container
+                        container.appendChild(foodItemDiv);
+                    });
                 }
-            } 
-            catch (err) 
-            {
+            } catch (err) {
                 console.error(err);
             }
-        }
-
-        fetchitemdata();
-    </script>
+        };
+    
+        fetchItemData();
+    </script>    
     <!-- Start Food Category 
     ============================================= -->
     <div class="food-category-area default-padding bottom-less" style="background-image: url(assets/img/shape/16.png);">
         <div class="container">
             <div class="row">
                 <!-- Single Item -->
-                <div class="col-xl-3 col-lg-6 col-md-6">
+                <!-- <div class="col-xl-3 col-lg-6 col-md-6">
                     <div class="food-category-item">
                         <div class="thumb">
-                            <img src="assets/img/paneer tikka masala.png" alt="Image Not Found">
+                            <img src="https://cookingfromheart.com/wp-content/uploads/2017/03/Paneer-Tikka-Masala-4.jpg" alt="Image Not Found">
                         </div>
                         <div class="info">
-                            <h4><a href="#">Loading...</a></h4> <!-- This will be updated dynamically -->
+                            <h4><a href="#">Loading...</a></h4> 
                             <p>
                                 Loading description...
                             </p>
                             <a href="#" class="btn-read-more">Order Now <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- End Single Item -->
-                <!-- Single Item -->
-                <div class="col-xl-3 col-lg-6 col-md-6">
-                    <div class="food-category-item">
-                        <div class="thumb">
-                            <img src="assets/img/800x600.png" alt="Image Not Found">
-                        </div>
-                        <div class="info">
-                            <h4><a href="#">Cheese Burger</a></h4>
-                            <p>
-                                Cheese, Ham & Pineapple
-                            </p>
-                            <a href="#" class="btn-read-more">Order Now <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Single Item -->
-                <!-- Single Item -->
-                <div class="col-xl-3 col-lg-6 col-md-6">
-                    <div class="food-category-item">
-                        <div class="thumb">
-                            <img src="assets/img/800x600.png" alt="Image Not Found">
-                        </div>
-                        <div class="info">
-                            <h4><a href="#">Chicken Paradise</a></h4>
-                            <p>
-                                Cheese, Ham & Pineapple
-                            </p>
-                            <a href="#" class="btn-read-more">Order Now <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Single Item -->
-                <!-- Single Item -->
-                <div class="col-xl-3 col-lg-6 col-md-6">
-                    <div class="food-category-item">
-                        <div class="thumb">
-                            <img src="assets/img/800x600.png" alt="Image Not Found">
-                        </div>
-                        <div class="info">
-                            <h4><a href="#">Shawarma</a></h4>
-                            <p>
-                                Cheese, Ham & Pineapple
-                            </p>
-                            <a href="#" class="btn-read-more">Order Now <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Single Item -->
-                <!-- Single Item -->
-                <div class="col-xl-3 col-lg-6 col-md-6">
-                    <div class="food-category-item">
-                        <div class="thumb">
-                            <img src="assets/img/800x600.png" alt="Image Not Found">
-                        </div>
-                        <div class="info">
-                            <h4><a href="#">Salmon Steak</a></h4>
-                            <p>
-                                Cheese, Ham & Pineapple
-                            </p>
-                            <a href="#" class="btn-read-more">Order Now <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Single Item -->
-                <!-- Single Item -->
-                <div class="col-xl-3 col-lg-6 col-md-6">
-                    <div class="food-category-item">
-                        <div class="thumb">
-                            <img src="assets/img/800x600.png" alt="Image Not Found">
-                        </div>
-                        <div class="info">
-                            <h4><a href="#">Fries McDonald's</a></h4>
-                            <p>
-                                Cheese, Ham & Pineapple
-                            </p>
-                            <a href="#" class="btn-read-more">Order Now <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Single Item -->
-                <!-- Single Item -->
-                <div class="col-xl-3 col-lg-6 col-md-6">
-                    <div class="food-category-item">
-                        <div class="thumb">
-                            <img src="assets/img/800x600.png" alt="Image Not Found">
-                        </div>
-                        <div class="info">
-                            <h4><a href="#">Chocolate chip</a></h4>
-                            <p>
-                                Cheese, Ham & Pineapple
-                            </p>
-                            <a href="#" class="btn-read-more">Order Now <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Single Item -->
-                <!-- Single Item -->
-                <div class="col-xl-3 col-lg-6 col-md-6">
-                    <div class="food-category-item">
-                        <div class="thumb">
-                            <img src="assets/img/800x600.png" alt="Image Not Found">
-                        </div>
-                        <div class="info">
-                            <h4><a href="#">Meatballs Pasta</a></h4>
-                            <p>
-                                Cheese, Ham & Pineapple
-                            </p>
-                            <a href="#" class="btn-read-more">Order Now <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Single Item -->
+
+                <!-- Food items will be dynamically injected here -->
             </div>
         </div>
     </div>

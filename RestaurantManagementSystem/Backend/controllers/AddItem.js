@@ -9,6 +9,7 @@ const AddItem=async(req, res) => {
         if(alreadyexist)
         {
             return res.status(401).json({
+                success:false,
                 message: "Item Name Already Exists !!!"
             });
         }
@@ -21,6 +22,7 @@ const AddItem=async(req, res) => {
         });
 
         res.status(201).json({
+            success:true,
             message: "Item Added Successfully !",
             data: additem,
             ok: true,
@@ -30,6 +32,7 @@ const AddItem=async(req, res) => {
     {
         console.error(err);
         res.status(500).json({
+            success:false,
             data:"error occurred",
             message:err.message,
         });

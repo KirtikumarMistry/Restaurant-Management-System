@@ -16,7 +16,14 @@ const signup = require('../controllers/Signup');
 const  orderplaced=require('../controllers/Orderplaced')
 const ordercompleted=require('../controllers/Ordercompleted')
 const Login=require('../controllers/Login')
-
+const Admin=require('../controllers/GetAdmin')
+const ManagerTable=require('../controllers/ManagerTable');
+const AddTable=require('../controllers/AddTable');
+const GetTable=require('../controllers/GetTable');
+const DeleteTable=require('../controllers/DeleteTable')
+const UpdatedTable=require('../controllers/UpdateTable')
+const DeleteItem=require('../controllers/DeleteItem');
+const UpdateItem = require('../controllers/UpdateItem');
 
 
 router.get('/', Home);
@@ -28,18 +35,16 @@ router.get('/Chef', Chef);
 router.get('/AboutUs', AboutUs);
 router.get('/ChefDetails', ChefDeatils);
 router.get('/FoodGallery', FoodGallery);
-router.post('/AddItem', AddItem);
+router.post('/admin/AddItem', AddItem);
 router.get('/Food-Menu/GetItem', GetItem);
-router.get('/admin', async (req, res) => {
-    try {
-        const tables = await findTables(); // Fetch tables
-        const items = await findItems();   // Fetch items
-        res.render('admin', { tables, items }); // Render the admin page with fetched data
-    } catch (error) {
-        console.error("Error fetching data:", error);
-        res.status(500).send("Internal Server Error");
-    }
-});
+router.get('/ManagerTable', ManagerTable);
+router.post('/admin/AddTable', AddTable);
+router.get('/GetTable', GetTable);
+router.delete('/admin/tables/:id',DeleteTable)
+router.get('/admin',Admin);
+router.put('/admin/tables/:tableId',UpdatedTable)
+router.delete('/admin/items/:itemId',DeleteItem)
+router.put('/admin/items/:itemId',UpdateItem)
 
 
 router.get("/Login", (req, res) => {

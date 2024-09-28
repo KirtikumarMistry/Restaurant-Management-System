@@ -1,9 +1,12 @@
+const  Table=require('../models/Table') 
+const Item=require('../models/Item')
+
 const findTables = async () => {
-    return await Table.find(); // Fetches all tables
+    return await Table.find(); 
 };
 
 const findItems = async () => {
-    return await Item.find(); // Fetches all menu items
+    return await Item.find(); 
 };
 
 const Admin=async (req,res)=>{

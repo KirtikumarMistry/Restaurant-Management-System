@@ -309,6 +309,7 @@
             }
         }
 
+        
     </style>
     <script>
         // Function to update the count of a specific item
@@ -388,6 +389,19 @@
         // Call the function to fetch and display the items
         fetchItemData();
     </script>    
+    <div class="row">
+        <div class="col-md-12 pagi-area text-center">
+            <nav aria-label="navigation">
+                <ul class="pagination">
+                    <li class="page-item"></li>
+                    <li class="page-item active">
+                        <input class="table-num" type="text" placeholder=" Enter Table Number" style="width: 1000px">
+                    </li>
+                    <li class="page-item"></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
     <!-- Start Food Category 
     ============================================= -->
     <div class="food-category-area default-padding bottom-less" style="background-image: url(assets/img/shape/16.png);">
@@ -831,7 +845,10 @@
     <script>
         document.getElementById('order-now-btn').addEventListener('click', async (e) => {
             e.preventDefault(); // Prevent default behavior of the link
-    
+
+            //Gather Table data
+            const tableNum = document.querySelector('.table-num').value;
+
             // Gather item data
             const items = [];
             document.querySelectorAll('.food-category-item').forEach((itemElement, index) => {
@@ -852,7 +869,7 @@
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ Items_Ordered : items }), // Send the gathered items as JSON
+                        body: JSON.stringify({ Table_Number : tableNum ,Items_Ordered : items }), // Send the gathered items as JSON
                     });
                     const responseData = await response.json();
                     console.log(responseData.message);
@@ -860,6 +877,9 @@
                     if (responseData.success) {
                         console.log(responseData.order);
                         alert('Order placed successfully!');
+
+                        // Redirect to the link provided in the href attribute
+                        window.location.href = e.target.href; // This uses the existing link from the anchor tag
                     } else {
                         alert('Failed to place order.');
                     }

@@ -5,13 +5,12 @@ const Table = require('../models/Table.js');
 const AddOrder = async (req, res) => {
     try {
         // Assuming the Table_Number is being passed as a URL parameter or set programmatically
-        const  Table_Number  = 5; // Use req.params.Table_Number instead of req.body.Table_Number
-        const {Items_Ordered} = req.body; // Expect only items in the request body
-
+        const {Table_Number, Items_Ordered} = req.body; // Expect only items in the request body
+        console.log(Table_Number);
         console.log(Items_Ordered);
 
         // Step 1: Find the table by Table_Number
-        const table = await Table.findOne({ Number: 5 });
+        const table = await Table.findOne({ Number: Table_Number });
 
         if (!table) {
             console.log("Table not found");

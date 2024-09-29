@@ -27,6 +27,9 @@ const UpdateItem = require('../controllers/UpdateItem');
 const AddOrder=require('../controllers/AddOrder');
 const OngoingTable = require('../controllers/OngoingTables');
 const EndTable = require('../controllers/EndTable');
+const Contact=require('../controllers/Contact');
+const ShowItems=require('../controllers/ShowItems');
+const GetOrder=require('../controllers/GetOrder');
 
 router.get('/', Home);
 router.get('/Home', Home);
@@ -50,7 +53,9 @@ router.put('/admin/items/:itemId',UpdateItem)
 router.post('/AddOrder', AddOrder);
 router.get('/admin/ongoingTables',OngoingTable)
 router.put('/admin/EndTable',EndTable)
-
+router.get('/Contact', Contact);
+router.get(/^\/ShowItems(.+)/, ShowItems);
+router.get('/GetOrder/:Number', GetOrder);
 
 router.get("/Login", (req, res) => {
     res.render('login', { 

@@ -39,6 +39,33 @@
 
 <body>
 
+    <!-- Start Preloader 
+    ============================================= -->
+    <div id="preloader">
+        <div id="restan-preloader" class="restan-preloader">
+            <div class="animation-preloader">
+                <div class="spinner"></div>
+            </div>
+            <div class="loader">
+                <div class="row">
+                    <div class="col-3 loader-section section-left">
+                        <div class="bg"></div>
+                    </div>
+                    <div class="col-3 loader-section section-left">
+                        <div class="bg"></div>
+                    </div>
+                    <div class="col-3 loader-section section-right">
+                        <div class="bg"></div>
+                    </div>
+                    <div class="col-3 loader-section section-right">
+                        <div class="bg"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Preloader -->
+
     <!-- Start Header Top 
     ============================================= -->
     <div class="top-bar-area top-bar-style-one bg-theme text-light">
@@ -115,7 +142,7 @@
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
                         <i class="fa fa-bars"></i>
                     </button>
-                    <a class="navbar-brand" href="Home">
+                    <a class="navbar-brand" href="index.html">
                         <img src="assets/img/logo-light.png" class="logo logo-display" alt="Logo">
                         <img src="assets/img/logo.png" class="logo logo-scrolled" alt="Logo">
                     </a>
@@ -147,7 +174,7 @@
                                 </li>
                                 <li><a href="FoodGallery">Food Gallery</a></li>
                                 <li><a href="reservation.html">Reservation</a></li>
-                                <li><a href="Contact">Contact Us</a></li>
+                                <li><a href="contact.html">Contact Us</a></li>
                                 <li><a href="404.html">Error Page</a></li>
                             </ul>
                         </li>
@@ -189,177 +216,57 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12">
-                    <h1>Contact Us</h1>
+                    <h1>Restaurant Food Menu</h1>
                     <ul class="breadcrumb">
-                        <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
-                        <li>Contact</li>
+                        <li><a href="Home"><i class="fas fa-home"></i> Home</a></li>
+                        <li>Menu</li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
     <!-- End Breadcrumb -->
-
-    <!-- Start Contact Us 
+    <style>
+        .food-items-row {
+            display: flex;
+            flex-direction: column; /* Stack items vertically */
+            gap: 20px; /* Space between items */
+        }
+    
+        .food-category-item {
+            width: 100%; /* Each item takes full width */
+            background: #fff; /* Background for better visibility */
+            padding: 15px; /* Padding inside the item */
+            border: 2px solid #826a45; /* Border for separation */
+            border-radius: 5px; /* Rounded corners */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Subtle shadow */
+            text-align: center; /* Center text */
+        }
+    
+        .food-category-item h4 {
+            margin: 0; /* Remove margin */
+        }
+    
+        .food-category-item p {
+            margin: 10px 0; /* Margin for the price */
+        }
+    
+        .food-category-item div {
+            display: flex; /* Flex for buttons */
+            justify-content: center; /* Center buttons */
+            gap: 10px; /* Space between buttons */
+        }
+    </style>
+    <!-- Start Food Category 
     ============================================= -->
-    <div class="contact-style-one-area default-padding overflow-hidden">
-
+    <div class="food-category-area default-padding bottom-less" style="background-image: url(assets/img/shape/16.png);">
         <div class="container">
-            <div class="row align-center">
-
-                <div class="col-lg-10 offset-lg-1">
-
-                    <div class="contact-style-one-info">
-                        <ul>
-                            <li class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
-                                <div class="icon">
-                                    <img src="assets/img/icon/phone.png" alt="Icon">
-                                </div>
-                                <div class="content">
-                                    <h5 class="title">Hotline</h5>
-                                    <a href="">+4733378901</a>
-                                </div>
-                            </li>
-                            <li class="wow fadeInUp" data-wow-delay="300ms" style="visibility: visible; animation-delay: 300ms; animation-name: fadeInUp;">
-                                <div class="icon">
-                                    <img src="assets/img/icon/placeholder.png" alt="Icon">
-                                </div>
-                                <div class="info">
-                                    <h5 class="title">Our Location</h5>
-                                    <p>
-                                        55 Main Street, The Grand Avenue 2nd Block, New York City
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="wow fadeInUp" data-wow-delay="500ms" style="visibility: visible; animation-delay: 500ms; animation-name: fadeInUp;">
-                                <div class="icon">
-                                    <img src="assets/img/icon/email.png" alt="Icon">
-                                </div>
-                                <div class="info">
-                                    <h5 class="title">Official Email</h5>
-                                    <a href="mailto:info@restan.com.com">info@restan.com</a>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="col-lg-10 offset-lg-1">
-                    <div class="contact-form-style-one">
-                        <div class="heading text-center">
-                            <h5 class="sub-title">Keep in touch</h5>
-                            <h2 class="heading">Send us a Massage</h2>
-                        </div>
-                        <form action="assets/mail/contact.php" method="POST" class="contact-form contact-form">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <input class="form-control" id="name" name="name" placeholder="Name" type="text">
-                                        <span class="alert-error"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <input class="form-control" id="email" name="email" placeholder="Email*" type="email">
-                                        <span class="alert-error"></span>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <input class="form-control" id="phone" name="phone" placeholder="Phone" type="text">
-                                        <span class="alert-error"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="form-group comments">
-                                        <textarea class="form-control" id="comments" name="comments" placeholder="Your Message *"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <button type="submit" name="submit" id="submit">
-                                        <i class="fa fa-paper-plane"></i> Get in Touch
-                                    </button>
-                                </div>
-                            </div>
-                            <!-- Alert Message -->
-                            <div class="col-lg-12 alert-notification">
-                                <div id="message" class="alert-msg"></div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-                
-
+            <div class="food-items-row">
+                <!-- Food items will be dynamically injected here -->
             </div>
         </div>
     </div>
-    <!-- End Contact -->
-
-    <!-- Start Map 
-    ============================================= -->
-    <div class="maps-area overflow-hidden">
-        <div class="google-maps">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d48388.929990966964!2d-74.00332!3d40.711233!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY!5e0!3m2!1sen!2sus!4v1653598669477!5m2!1sen!2sus"></iframe>
-        </div>
-    </div>
-    <!-- End Map -->
-
-    <!-- Start Opening Hours 
-    ============================================= -->
-    <div class="opening-hours-area default-padding overflow-hidden">
-        <div class="container">
-            <div class="opening-hour-items">
-                <h2 class="text-fixed">Restan</h2>
-                <div class="shape">
-                    <img src="assets/img/shape/4.png" alt="Image Not Found">
-                </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="opening-hours-thumb video-bg-live">
-                            <img src="assets/img/1500x1000.png" alt="Image Not Found">
-                            <div class="player" data-property="{videoURL:'0Fs-4GiNxQ8',containment:'.video-bg-live', showControls:false, autoPlay:true, zoom:0, loop:true, mute:true, startAt:654, opacity:1, quality:'default'}"></div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="opening-hours-info">
-                            <h3>Opening Hours</h3>
-                            <p>
-                                A relaxing and pleasant atmosphere, good jazz, dinner, and cocktails. The Patio Time Bar opens in the center..
-                            </p>
-                            <ul class="opening-hours-table">
-                                <li>
-                                    <h6>Sunday to Tuesday:</h6> <span>10:00 - 09:00</span>
-                                </li>
-                                <li>
-                                    <h6>Wednesday to Thursday:</h6> <span>11:30 - 10:30</span>
-                                </li>
-                                <li>
-                                    <h6>Friday & Saturday:</h6> <span>10:30  - 12:00</span>
-                                </li>
-                            </ul>
-                            <div class="call-to-action">
-                                <div class="icon">
-                                    <img src="assets/img/icon/6.png" alt="Image Not Found">
-                                </div>
-                                <div class="info">
-                                    <p>Call Anytime</p>
-                                    <h4><a href="#">+964733-378901</a></h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Opening Hours -->
+    <!-- End Food Category -->
 
     <!-- Start Footer 
     ============================================= -->
@@ -533,6 +440,47 @@
     <script src="assets/js/ScrollTrigger.min.js"></script>
     <script src="assets/js/bootstrap-datepicker.js"></script>
     <script src="assets/js/main.js"></script>
+    <script>
+        // Get the current pathname
+        const pathname = window.location.pathname;
+
+        // Split the pathname by '/'
+        const numberPart = pathname.substring('/ShowItems'.length);
+    
+        // Trim leading or trailing spaces (if any)
+        const Number = numberPart.trim();
+
+
+        // Function to dynamically inject food items into the .food-items-row
+        async function loadFoodItems() {
+            const response = await fetch(`http://localhost:5000/GetOrder/${Number}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            const responseFormat=await response.json();
+            const order= responseFormat.data;
+            const foodItems=order.Items_Ordered;
+
+            const foodItemsRow = document.querySelector('.food-items-row');
+
+            foodItems.forEach((item, index) => {
+                const foodItemHTML = `
+                    <div class="food-category-item">
+                        <h4><a href="#">${item.Name}</a></h4>
+                        <p>Quantity : ${item.Quantity}</p>
+                        <p>Price: ₹${item.Price}</p>
+                    </div>
+                `;
+                foodItemsRow.innerHTML += foodItemHTML; // Use innerHTML to append the HTML
+            });
+        }
+
+        // Call the function to inject the food items when the page loads
+        loadFoodItems();
+    </script>
 
 </body>
 </html>

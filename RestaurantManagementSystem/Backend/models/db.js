@@ -16,7 +16,8 @@ const Userdet = mongoose.Schema({
     contactNumber:{
         type:String,
         required:true
-    }
+    },
+    
 })
 
 const orderdet = new mongoose.Schema({

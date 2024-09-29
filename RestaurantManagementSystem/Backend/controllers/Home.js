@@ -2,7 +2,7 @@ const Home = async(req, res) => {
     try
     {
         res.render('Home',{
-            Log:false
+            Log:false,
         });        
     }
     catch(err)

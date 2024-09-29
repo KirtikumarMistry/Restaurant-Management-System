@@ -17,7 +17,12 @@ const Userdet = mongoose.Schema({
         type:String,
         required:true
     },
-    
+    AccountType:{
+        type:String,
+        default:"User",
+        enum:["User","Admin"]
+    }
+
 })
 
 const orderdet = new mongoose.Schema({

@@ -1,5 +1,6 @@
 const {collection}=require('../models/db')
 const bcrypt=require('bcrypt')
+const Admin = require('./GetAdmin')
 const login = async (req, res) => {
     try {
       const {  email, password } = req.body
@@ -12,7 +13,7 @@ const login = async (req, res) => {
       const match = await bcrypt.compare(password, user.password);
       if (match) {
         res.render("Home",{
-          Log:true
+          Log:true,
         })
       
       } else {

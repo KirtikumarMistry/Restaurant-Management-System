@@ -2,9 +2,10 @@ const Table=require('../models/Table')
 const Orders=require('../models/Order')
 const EndTable=async (req,res)=>{
     try{
-        const {id}=req.body
+        const {id}=req.body;
+        console.log(id);
         const table=await Table.findByIdAndUpdate(id,{Status:false},{new:true});
-        const OrderDelete=await Orders.findOneAndDelete({Table_Number:table.Number})
+        const OrderDelete=await Orders.findOneAndDelete({Table_Number:table.Number});
         if(!table)
         {
             return res.status(404).json({

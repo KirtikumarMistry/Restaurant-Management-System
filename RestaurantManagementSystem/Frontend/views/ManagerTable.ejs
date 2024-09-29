@@ -258,6 +258,33 @@
             return order;
         }
 
+        async function CheckoutOrders(Number) {
+            try 
+            {
+                console.log(Number);
+                const response = await fetch(`http://localhost:5000/ManagerTable/EndTable`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ id: Number })
+                });
+
+                const textResponse = await response.text();
+                console.log(textResponse); // Check the exact response
+                try {
+                    const jsonResponse = JSON.parse(textResponse);
+                    console.log(jsonResponse);
+                } catch (error) {
+                    console.error("Failed to parse JSON:", error);
+                }
+            } 
+            catch (error) 
+            {
+                console.error("Error checking out order:", error);
+            }
+        }
+
 
         const renderTables =async(data) => {
             const tableContainer = document.querySelector('.blog-item-box .row');
@@ -297,7 +324,10 @@
                                         `<h6 class="title">
                                         <a href="#">Total Amount - Rs. ${order.Total_Amount}</a>
                                         </h6>
-                                        <a href="ShowItems${table.tableNumber}" class="btn-read-more">Show Items<i class="fas fa-arrow-right"></i></a>` 
+                                        <a href="ShowItems${table.tableNumber}" class="btn-read-more">Show Items<i class="fas fa-arrow-right"></i></a>
+                                        <button onclick="">
+                                            Checkout
+                                        </button>` 
                                     :
                                         `<h6 class="title">
                                         <a href="#">Total Amount : --</a>

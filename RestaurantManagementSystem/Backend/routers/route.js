@@ -13,10 +13,10 @@ const AddItem = require('../controllers/AddItem');
 const GetItem = require('../controllers/GetItem');
 const { collection } = require("../models/db");
 const signup = require('../controllers/Signup');
-const  orderplaced=require('../controllers/Orderplaced')
+const orderplaced=require('../controllers/Orderplaced')
 const ordercompleted=require('../controllers/Ordercompleted')
 const Login=require('../controllers/Login')
-const Admin=require('../controllers/GetAdmin')
+const Admin=require('../controllers/GetAdmin');
 const ManagerTable=require('../controllers/ManagerTable');
 const AddTable=require('../controllers/AddTable');
 const GetTable=require('../controllers/GetTable');
@@ -53,6 +53,7 @@ router.put('/admin/items/:itemId',UpdateItem)
 router.post('/AddOrder', AddOrder);
 router.get('/admin/ongoingTables',OngoingTable)
 router.put('/admin/EndTable',EndTable)
+router.put('/ManagerTable/EndTable', EndTable);
 router.get('/Contact', Contact);
 router.get(/^\/ShowItems(.+)/, ShowItems);
 router.get('/GetOrder/:Number', GetOrder);

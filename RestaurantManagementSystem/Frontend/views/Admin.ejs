@@ -22,21 +22,24 @@
                     <div class="table-details d-flex justify-content-between align-items-center">
                         <div>
                             <span><strong>Table Number:</strong>
-                                <%= table.Number %>
+                                <%= table.Table_Number %>
                             </span><br>
                             <span><strong>Status:</strong>
-                                <%= table.Status %>
+                                <%= true %>
                             </span><br>
-                            <span><strong>Total Revenue:</strong> ₹<%= table.Total_Revenue %></span>
+                            <span><strong>Total Quantity : </strong>
+                                <%= table.Total_Quantity%>
+                            </span><br>
+                            <span><strong>Total Revenue : </strong> ₹<%= table.Total_Amount %></span>
                         </div>
                         <div>
                             <!-- Buttons grouped together -->
-                            <a href="/ShowItems/<%= table.Number %>">
+                            <a href="/ShowItems<%= table.Number %>">
                                 <button class="btn btn-info btn-sm mr-2 toggleItems" data-id="<%= table._id %>">Show Items</button>
                             </a>
                             
                             <button class="btn btn-danger btn-sm endTable" data-id="<%= table._id %>"
-                                onclick=EndTable(event)>End Table</button>
+                                onclick=EndTable(event)>CheckOut</button>
                         </div>
                     </div>
                 </li>

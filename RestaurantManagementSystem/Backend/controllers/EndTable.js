@@ -3,7 +3,8 @@ const Orders=require('../models/Order')
 const EndTable=async (req,res)=>{
     try{
         const {id}=req.body
-        const table=await Table.findByIdAndUpdate(id,{Status:false},{new:true})
+        const table=await Table.findByIdAndUpdate(id,{Status:false},{new:true});
+        const OrderDelete=await Orders.findOneAndDelete({Table_Number:table.Number})
         if(!table)
         {
             return res.status(404).json({
@@ -11,7 +12,6 @@ const EndTable=async (req,res)=>{
                 message:"Table is not End"
             })
         }
-        const OrderDelete=await Orders.findOneAndDelete({Table_Number:table.Number})
 
         if(!OrderDelete)
             {

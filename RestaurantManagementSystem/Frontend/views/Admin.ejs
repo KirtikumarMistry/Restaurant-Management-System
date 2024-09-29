@@ -31,12 +31,12 @@
                         </div>
                         <div>
                             <!-- Buttons grouped together -->
-                            <a href="/ShowItems/<%= table.Number %>">
+                            <a href="/ShowItems<%= table.Number %>">
                                 <button class="btn btn-info btn-sm mr-2 toggleItems" data-id="<%= table._id %>">Show Items</button>
                             </a>
                             
                             <button class="btn btn-danger btn-sm endTable" data-id="<%= table._id %>"
-                                onclick=EndTable(event)>End Table</button>
+                                onclick=EndTable(event)>CheckOut</button>
                         </div>
                     </div>
                 </li>

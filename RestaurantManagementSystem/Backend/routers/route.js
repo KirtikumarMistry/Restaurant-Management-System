@@ -25,6 +25,8 @@ const UpdatedTable=require('../controllers/UpdateTable')
 const DeleteItem=require('../controllers/DeleteItem');
 const UpdateItem = require('../controllers/UpdateItem');
 const AddOrder=require('../controllers/AddOrder');
+const OngoingTable = require('../controllers/OngoingTables');
+const EndTable = require('../controllers/EndTable');
 
 router.get('/', Home);
 router.get('/Home', Home);
@@ -46,7 +48,8 @@ router.put('/admin/tables/:tableId',UpdatedTable)
 router.delete('/admin/items/:itemId',DeleteItem)
 router.put('/admin/items/:itemId',UpdateItem)
 router.post('/AddOrder', AddOrder);
-
+router.get('/admin/ongoingTables',OngoingTable)
+router.put('/admin/EndTable',EndTable)
 
 
 router.get("/Login", (req, res) => {

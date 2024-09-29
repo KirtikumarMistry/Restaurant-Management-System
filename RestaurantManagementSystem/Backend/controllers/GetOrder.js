@@ -14,6 +14,7 @@ const GetOrder = async (req, res) => {
             });
         }
 
+        
         res.status(201).json({
             message: "Items retrieved and formatted successfully",
             data: order,

@@ -14,7 +14,7 @@ const GetItem = require('../controllers/GetItem');
 const { collection } = require("../models/db");
 const signup = require('../controllers/Signup');
 const  orderplaced=require('../controllers/Orderplaced')
-const ordercompleted=require('../controllers/Ordercompleted')
+// const ordercompleted=require('../controllers/Ordercompleted')
 const Login=require('../controllers/Login')
 const Admin=require('../controllers/GetAdmin')
 const ManagerTable=require('../controllers/ManagerTable');
@@ -25,6 +25,9 @@ const UpdatedTable=require('../controllers/UpdateTable')
 const DeleteItem=require('../controllers/DeleteItem');
 const UpdateItem = require('../controllers/UpdateItem');
 const AddOrder=require('../controllers/AddOrder');
+const Contact=require('../controllers/Contact');
+const ShowItems=require('../controllers/ShowItems');
+const GetOrder=require('../controllers/GetOrder');
 
 router.get('/', Home);
 router.get('/Home', Home);
@@ -46,8 +49,9 @@ router.put('/admin/tables/:tableId',UpdatedTable)
 router.delete('/admin/items/:itemId',DeleteItem)
 router.put('/admin/items/:itemId',UpdateItem)
 router.post('/AddOrder', AddOrder);
-
-
+router.get('/Contact', Contact);
+router.get(/^\/ShowItems(.+)/, ShowItems);
+router.get('/GetOrder/:Number', GetOrder);
 
 router.get("/Login", (req, res) => {
     res.render('login', { 
@@ -74,6 +78,6 @@ router.get("/manager", (req, res) => {
 });
 
 router.post("/orderplaced", orderplaced);
-router.post("/ordercompleted", ordercompleted); 
+// router.post("/ordercompleted", ordercompleted); 
 
 module.exports = router;

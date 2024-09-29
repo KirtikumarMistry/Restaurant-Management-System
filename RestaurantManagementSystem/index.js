@@ -14,7 +14,7 @@ const { v4: uuidv4 } = require('uuid');
 const dbConnection = require('./Backend/config/database');
 dbConnection();
 
-app.use(express.static(path.join('Frontend', 'assets')));
+app.use(express.static(path.join('Frontend/public', 'assets')));
 const {collection,orderdetcoll} = require("./Backend/models/db");
 
 app.set("view engine","ejs")

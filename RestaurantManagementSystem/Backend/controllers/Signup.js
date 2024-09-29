@@ -22,11 +22,15 @@ const signup = async(req, res) => {
         try{
              hashpassword= await bcrypt.hash(password,10);
              const data=await collection.create({name,password:hashpassword,email,contactNumber});
-             res.status(200).json({
-                 id:data._id,
-                 success: true,
-                 message: 'Signed Up successfully',
-             });
+            //  res.status(200).json({
+            //      id:data._id,
+            //      success: true,
+            //      message: 'Signed Up successfully',
+            //  });
+             
+            res.status(200).render("Home",{
+                Log:true,               
+            })
         }
         catch(error)
         {

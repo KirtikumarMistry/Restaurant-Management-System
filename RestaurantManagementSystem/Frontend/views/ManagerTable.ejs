@@ -258,30 +258,30 @@
             return order;
         }
 
-        async function CheckoutOrders(Number) {
-            try 
-            {
-                console.log(Number);
-                const response = await fetch(`http://localhost:5000/ManagerTable/EndTable`, {
+        async function CheckoutOrders(id) {
+            try {
+                console.log("Initiating checkout for Table ID:", id);
+                const response = await fetch('http://localhost:5000/ManagerTable/EndTable', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ id: Number })
+                    body: JSON.stringify({ id: id }) // Ensure 'id' is just the ObjectId string
                 });
 
-                const textResponse = await response.text();
-                console.log(textResponse); // Check the exact response
-                try {
-                    const jsonResponse = JSON.parse(textResponse);
-                    console.log(jsonResponse);
-                } catch (error) {
-                    console.error("Failed to parse JSON:", error);
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to checkout the order.');
                 }
-            } 
-            catch (error) 
-            {
+
+                const responseFormat = await response.json();
+                console.log("Checkout Response:", responseFormat);
+
+                alert(responseFormat.message);
+                window.location.reload();
+            } catch (error) {
                 console.error("Error checking out order:", error);
+                alert(`Error: ${error.message}`);
             }
         }
 
@@ -324,8 +324,11 @@
                                         `<h6 class="title">
                                         <a href="#">Total Amount - Rs. ${order.Total_Amount}</a>
                                         </h6>
+                                        <li>
+                                            <div id="orderid" hidden>id : ${order._id}</div>
+                                        </li>
                                         <a href="ShowItems${table.tableNumber}" class="btn-read-more">Show Items<i class="fas fa-arrow-right"></i></a>
-                                        <button onclick="">
+                                        <button onclick="CheckoutOrders('${order._id}')" class="btn btn-primary">
                                             Checkout
                                         </button>` 
                                     :

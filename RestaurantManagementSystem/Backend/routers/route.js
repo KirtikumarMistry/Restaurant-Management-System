@@ -35,7 +35,7 @@ router.get('/', Home);
 router.get('/Home', Home);
 router.get('/Shop', Shop);
 router.get('/Blog', Blog);
-router.get('/Food-Menu', FoodMenu);
+router.get(/^\/Food-Menu[0-9a-zA-Z]*$/, FoodMenu);
 router.get('/Chef', Chef);
 router.get('/AboutUs', AboutUs);
 router.get('/ChefDetails', ChefDeatils);

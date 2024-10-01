@@ -308,8 +308,6 @@
                 font-size: 16px;
             }
         }
-
-        
     </style>
     <script>
         // Function to update the count of a specific item
@@ -392,16 +390,16 @@
     <div class="row">
         <div class="col-md-12 pagi-area text-center">
             <nav aria-label="navigation">
-                <ul class="pagination">
-                    <li class="page-item"></li>
+                <ul class="pagination" style="font-size: 1.5rem;"> <!-- Increased font size -->
                     <li class="page-item active">
-                        <input class="table-num" type="text" placeholder=" Enter Table Number" style="width: 1000px">
+                        <div class="page-link" href="Food-Menu" id="table-num" style="padding: 15px 25px; color: white;"></div> <!-- Active button styles -->
                     </li>
-                    <li class="page-item"></li>
                 </ul>
             </nav>
         </div>
     </div>
+    
+    
     <!-- Start Food Category 
     ============================================= -->
     <div class="food-category-area default-padding bottom-less" style="background-image: url(assets/img/shape/16.png);">
@@ -843,11 +841,19 @@
     <script src="assets/js/bootstrap-datepicker.js"></script>
     <script src="assets/js/main.js"></script>
     <script>
+        // Get the current URL
+        const currentUrl = window.location.href;
+
+        // Use a regular expression to extract the number
+        const match = currentUrl.match(/Food-Menu(\d+)/);
+        const tableNum = match ? match[1] : null; // Extract the number or return null if no match
+
+        console.log(tableNum); 
+
+        document.getElementById('table-num').innerHTML=`Table : ${tableNum}`;
+        
         document.getElementById('order-now-btn').addEventListener('click', async (e) => {
             e.preventDefault(); // Prevent default behavior of the link
-
-            //Gather Table data
-            const tableNum = document.querySelector('.table-num').value;
 
             // Gather item data
             const items = [];
@@ -859,7 +865,6 @@
                     items.push({ Name:itemName, Quantity: itemCount });
                 }
             });
-    
             if (items.length > 0) {
                 try 
                 {

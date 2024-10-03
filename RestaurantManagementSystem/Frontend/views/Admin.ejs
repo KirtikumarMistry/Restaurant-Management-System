@@ -87,10 +87,10 @@
                             data-number="<%= table.Number %>" data-status="<%= table.Status %>">Update</button>
                     </div>
                 </li>
+                <a href="" id="qrcodeurl<%= table.Number %>" target="_blank"></a>
                 <div id="qrcode<%= table.Number %>"></div>
                 <% }) %>
         </ul>
-
 
         <!-- Item Management -->
         <h2 class="mt-5">Manage Menu Items</h2>
@@ -157,9 +157,12 @@
         function generateQRCode(tableNumber) {
             const text= `https://prfx8vjw-5000.inc1.devtunnels.ms/Food-Menu${tableNumber}`;
             const qrcodeContainer = document.getElementById(`qrcode${tableNumber}`);
+            const qrcodeurlContainer = document.getElementById(`qrcodeurl${tableNumber}`);
 
             if(qrcodeContainer.innerHTML != '')
             {
+                qrcodeurlContainer.href='';
+                qrcodeurlContainer.innerHTML='';
                 qrcodeContainer.innerHTML = '';
             }
             else
@@ -174,6 +177,8 @@
                     .then(function (url) {
                         const img = document.createElement("img");
                         img.src = url;
+                        qrcodeurlContainer.href=text;
+                        qrcodeurlContainer.innerHTML=text;
                         qrcodeContainer.appendChild(img);
                     })
                     .catch(function (error) {

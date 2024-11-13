@@ -68,6 +68,8 @@
                 <label for="tableName">Table Name:</label>
                 <input type="text" class="form-control" id="tableName" required>
             </div>
+            <!-- QR Code Display Area -->
+            <div id="qrcode"></div>
             <button id="submitButton" class="btn btn-primary" onclick=AddTable()>Add Table</button>
         </div>
 
@@ -79,14 +81,16 @@
                     <span>Total Revenue: <%= table.Total_Revenue %></span>
                     <span>Status: <%= table.Status %></span>
                     <div>
+                        <button class="btn btn-primary btn-sm qrgenerate" data-id="<%= table._id %>"  onclick="generateQRCode('<%= table.Number %>')">QR code</button>
                         <button class="btn btn-danger btn-sm deleteTable" data-id="<%= table._id %>">Delete</button>
                         <button class="btn btn-warning btn-sm updateTable" data-id="<%= table._id %>"
                             data-number="<%= table.Number %>" data-status="<%= table.Status %>">Update</button>
                     </div>
                 </li>
+                <a href="" id="qrcodeurl<%= table.Number %>" target="_blank"></a>
+                <div id="qrcode<%= table.Number %>"></div>
                 <% }) %>
         </ul>
-
 
         <!-- Item Management -->
         <h2 class="mt-5">Manage Menu Items</h2>
@@ -135,6 +139,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
     <script>
         // function showToast() {
         //     const toastElement = document.getElementById('myToast');
@@ -149,6 +154,38 @@
         //         toastElement.style.display = 'none'; // Optional: set display to none after hiding
         //     }, 3000);
         // }
+        function generateQRCode(tableNumber) {
+            const text= `https://prfx8vjw-5000.inc1.devtunnels.ms/Food-Menu${tableNumber}`;
+            const qrcodeContainer = document.getElementById(`qrcode${tableNumber}`);
+            const qrcodeurlContainer = document.getElementById(`qrcodeurl${tableNumber}`);
+
+            if(qrcodeContainer.innerHTML != '')
+            {
+                qrcodeurlContainer.href='';
+                qrcodeurlContainer.innerHTML='';
+                qrcodeContainer.innerHTML = '';
+            }
+            else
+            {
+                if (text.trim() === '') {
+                    alert("Please enter valid text to generate a QR code.");
+                    return;
+                }
+
+                // Generate and display the QR code
+                QRCode.toDataURL(text)
+                    .then(function (url) {
+                        const img = document.createElement("img");
+                        img.src = url;
+                        qrcodeurlContainer.href=text;
+                        qrcodeurlContainer.innerHTML=text;
+                        qrcodeContainer.appendChild(img);
+                    })
+                    .catch(function (error) {
+                        console.error("Error generating QR Code:", error);
+                    });
+            }
+        }
         async function AddTable() {
             const Table = document.getElementById("tableName").value;
             const res = await fetch("/admin/AddTable", {

@@ -18,13 +18,16 @@ const OrderedItemSchema = new mongoose.Schema({
     },
 });
 
-// Define the schema for the order
+// Define the schema for the order, making Items_Ordered a 2D array
 const OrderSchema = new mongoose.Schema({
     Table_Number: {
         type: Number,  // Use Number if table number is numeric
         required: true,
     },
-    Items_Ordered: [OrderedItemSchema],  // Embed the OrderedItem schema
+    Items_Ordered: {
+        type: [[OrderedItemSchema]],  // 2D array to store multiple lists of orders
+        default: [],
+    },
     Total_Amount: {
         type: Number,
         default: 0,  // Can be auto-calculated based on Items_Ordered if needed
@@ -45,9 +48,11 @@ OrderSchema.pre('save', function (next) {
     let totalAmount = 0;
     let totalQuantity = 0;
 
-    this.Items_Ordered.forEach((item) => {
-        totalAmount += item.Price * item.Quantity;
-        totalQuantity += item.Quantity;
+    this.Items_Ordered.forEach((orderGroup) => {
+        orderGroup.forEach((item) => {
+            totalAmount += item.Price * item.Quantity;
+            totalQuantity += item.Quantity;
+        });
     });
 
     this.Total_Amount = totalAmount;

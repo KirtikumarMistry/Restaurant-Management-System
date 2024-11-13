@@ -256,7 +256,45 @@
             justify-content: center; /* Center buttons */
             gap: 10px; /* Space between buttons */
         }
+
+        .item-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd; /* Optional: to separate items */
+}
+
+.item-container h4 {
+    flex-grow: 1; /* Allows the name to take up space */
+    margin: 0;
+    text-align: left; /* Ensures that the item name starts at the beginning of the line */
+}
+
+.item-container a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.item-quantity {
+    flex-grow: 1;
+    text-align: center; /* Keeps the quantity centered */
+    margin: 0;
+}
+
+.item-price {
+    flex-grow: 0;
+    margin: 0;
+    text-align: right; /* Ensures that the price stays aligned to the right */
+}
+
     </style>
+    <div class="food-category-area default-padding bottom-less" style="background-image: url(assets/img/shape/16.png);"></div>
+        <div class="container">
+            <h1>Previously Ordered</h1>
+        </div>
+    </div>
     <!-- Start Food Category 
     ============================================= -->
     <div class="food-category-area default-padding bottom-less" style="background-image: url(assets/img/shape/16.png);">
@@ -446,10 +484,9 @@
 
         // Split the pathname by '/'
         const numberPart = pathname.substring('/ShowItems'.length);
-    
+
         // Trim leading or trailing spaces (if any)
         const Number = numberPart.trim();
-
 
         // Function to dynamically inject food items into the .food-items-row
         async function loadFoodItems() {
@@ -460,22 +497,34 @@
                 },
             });
 
-            const responseFormat=await response.json();
-            const order= responseFormat.data;
-            const foodItems=order.Items_Ordered;
+            const responseFormat = await response.json();
+            const order = responseFormat.data;
+            const foodItems = order.Items_Ordered;
 
             const foodItemsRow = document.querySelector('.food-items-row');
+            
+            let foodItemHTML = '';
 
-            foodItems.forEach((item, index) => {
-                const foodItemHTML = `
-                    <div class="food-category-item">
-                        <h4><a href="#">${item.Name}</a></h4>
-                        <p>Quantity : ${item.Quantity}</p>
-                        <p>Price: ₹${item.Price}</p>
-                    </div>
-                `;
-                foodItemsRow.innerHTML += foodItemHTML; // Use innerHTML to append the HTML
+            // Loop through each order group in Items_Ordered
+            foodItems.forEach((orderGroup) => {
+                // Create a container for the order group
+                foodItemHTML += `<div class="food-category-item">`;
+
+                // Loop through each item in the order group
+                orderGroup.forEach((item) => {
+                    foodItemHTML += `
+                        <div class="item-container">
+                            <h4><a href="#">${item.Name}</a></h4>
+                            <p class="item-quantity">Quantity: ${item.Quantity}</p>
+                            <p class="item-price">Price: ₹${item.Price}</p>
+                        </div>
+                    `;
+                });
+
+                foodItemHTML += `</div>`; // Close the order group container
             });
+
+            foodItemsRow.innerHTML += foodItemHTML; // Use innerHTML to append the HTML
         }
 
         // Call the function to inject the food items when the page loads

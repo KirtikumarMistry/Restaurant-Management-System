@@ -4,10 +4,7 @@ const Table = require('../models/Table.js');
 
 const AddOrder = async (req, res) => {
     try {
-        // Assuming the Table_Number is being passed as a URL parameter or set programmatically
-        const {Table_Number, Items_Ordered} = req.body; // Expect only items in the request body
-        console.log(Table_Number);
-        console.log(Items_Ordered);
+        const { Table_Number, Items_Ordered } = req.body; // Expect 1D array of items in the request body
 
         // Step 1: Find the table by Table_Number
         const table = await Table.findOne({ Number: Table_Number });
@@ -19,11 +16,12 @@ const AddOrder = async (req, res) => {
             });
         }
 
-        // Step 2: Calculate total price and total quantity from the ordered items
+        // Step 2: Initialize total price and total quantity
         let totalPrice = 0;
         let totalQuantity = 0;
         const orderedItems = [];
 
+        // Step 3: Loop through the Items_Ordered array (1D) and get their details from the database
         for (const item of Items_Ordered) {
             const dbItem = await Item.findOne({ Name: item.Name });
 
@@ -37,7 +35,6 @@ const AddOrder = async (req, res) => {
             totalPrice += itemTotalPrice;
             totalQuantity += item.Quantity;
 
-            // Prepare ordered items for saving
             orderedItems.push({
                 Name: item.Name,
                 Quantity: item.Quantity,
@@ -45,33 +42,35 @@ const AddOrder = async (req, res) => {
             });
         }
 
-        // Step 3: Check if there's already an order for this table number
+        // Step 4: Check if there's already an order for this table number
         let existingOrder = await Order.findOne({ Table_Number: Table_Number });
 
         if (existingOrder) {
-            // Update existing order
-            existingOrder.Items_Ordered.push(...orderedItems);
+            // Push the new order items into the 2D array as a new group
+            existingOrder.Items_Ordered.push(orderedItems);
+
+            // Update the total amount and total quantity
             existingOrder.Total_Amount += totalPrice;
             existingOrder.Total_Quantity += totalQuantity;
 
             await existingOrder.save();
 
-            // Update table's revenue and status if necessary
+            // Update the table's revenue and status if necessary
             table.Total_Revenue += totalPrice;
-            table.Status = true; // Mark the table as active if needed
+            table.Status = true; // Mark the table as active
             await table.save();
 
-            // Step 4: Return success response for the updated order
+            // Return success response for the updated order
             return res.status(200).json({
                 message: "Order updated successfully!",
                 order: existingOrder,
-                success:true,
+                success: true,
             });
         } else {
             // Step 5: Create a new order if none exists
             const newOrder = await Order.create({
                 Table_Number: Table_Number,
-                Items_Ordered: orderedItems,
+                Items_Ordered: [orderedItems],  // Push the first order group into the 2D array
                 Total_Amount: totalPrice,
                 Total_Quantity: totalQuantity,
             });
@@ -81,11 +80,11 @@ const AddOrder = async (req, res) => {
             table.Total_Revenue += totalPrice;
             await table.save();
 
-            // Step 6: Return success response for the new order
+            // Return success response for the new order
             return res.status(201).json({
                 message: "Order added successfully!",
                 order: newOrder,
-                success:true,
+                success: true,
             });
         }
     } catch (err) {

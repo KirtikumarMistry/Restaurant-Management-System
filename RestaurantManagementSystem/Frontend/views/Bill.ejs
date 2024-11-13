@@ -193,10 +193,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12">
-                    <h1>TableFlow</h1>
+                    <h1>Bill</h1>
                     <ul class="breadcrumb">
-                        <li><a href="Home"><i class="fas fa-home"></i> Home</a></li>
-                        <li>TableFlow</li>
+                        <li><a href="Home"><i class="fas fa-home"></i> ManagerTable</a></li>
+                        <li>Billing</li>
                     </ul>
                 </div>
             </div>
@@ -204,20 +204,201 @@
     </div>
     <!-- End Breadcrumb -->
 
+    <style>
+        /* Your provided CSS code */
+        .food-items-row {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .food-category-item {
+            width: 100%;
+            background: #fff;
+            padding: 15px;
+            border: 2px solid #826a45;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .food-category-item h4 {
+            margin: 0;
+        }
+
+        .food-category-item p {
+            margin: 10px 0;
+        }
+
+        .food-category-item div {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .item-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .item-container h4 {
+            flex-grow: 1;
+            margin: 0;
+            text-align: left;
+        }
+
+        .item-container a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .item-quantity {
+            flex-grow: 1;
+            text-align: center;
+            margin: 0;
+        }
+
+        .item-price {
+            flex-grow: 0;
+            margin: 0;
+            text-align: right;
+        }
+
+    </style>
+
     <!-- Start Blog 
     ============================================= -->
     <div class="blog-area blog-grid grid-colum-3 default-padding">
         <div class="container">
             <div class="blog-item-box">
                 <div class="row">
-                    <!-- Single Item -->
-                    <div id="qrcode"></div>
-                    <!-- End Single Item -->
+                    <!-- Table Number -->
+                    <div class="food-category-item">
+                        <h4>Table Number: 5</h4>
+                    </div>
+                    
+                    <!-- Ordered Items List -->
+                    <div class="food-items-row">
+                        <!-- Dynamically injected food items will appear here -->
+                    </div>
+    
+                    <!-- QR Code Section -->
+                    <div id="qrcode" class="food-category-item"></div>
+                    
                 </div>
             </div>
         </div>
     </div>
     <!-- End Blog -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <script>
+    
+        // Get the current pathname
+        const pathname = window.location.pathname;
+    
+        // Extract order number from the pathname
+        const numberPart = pathname.substring('/ShowItems'.length);
+        const Number = numberPart.trim();
+    
+        // Function to dynamically inject food items into the .food-items-row
+        async function loadFoodItems() {
+            const response = await fetch(`http://localhost:5000/GetOrder/${5}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            let TotalOrderedItems = 0;
+            let TotalAmount = 0;
+    
+            const responseFormat = await response.json();
+            const order = responseFormat.data;
+            const foodItems = order.Items_Ordered;
+            const flatFoodItems = foodItems.flat();
+
+            const combinedFoodItems = flatFoodItems.reduce((acc, item) => {
+                // Check if an item with the same name already exists in the accumulator
+                const existingItem = acc.find(i => i.Name === item.Name);
+
+
+                if (existingItem) {
+                    TotalOrderedItems = TotalOrderedItems + item.Quantity;
+                    TotalAmount = TotalAmount + item.Quantity * item.Price;
+                    // If item exists, update the quantity and total price
+                    existingItem.Quantity += item.Quantity;
+                    existingItem.Price += item.Quantity * item.Price;
+                } else {
+
+                    TotalAmount=TotalAmount+item.Price;
+                    TotalOrderedItems=TotalOrderedItems+item.Quantity;
+                    // If item doesn't exist, add it to the accumulator with total price
+                    acc.push({
+                        ...item,
+                        Price: item.Quantity * item.Price // Calculate the initial total price
+                    });
+                }
+
+                return acc;
+            }, []);
+    
+            // Select the .food-items-row container
+            const foodItemsRow = document.querySelector('.food-items-row');
+
+            // Build the HTML for the combined items
+            let foodItemHTML = '<div class="food-category-item"><h4>Billing Details</h4>';
+
+            combinedFoodItems.forEach((item) => {
+                foodItemHTML += `
+                    <div class="item-container">
+                        <h4><a href="#">${item.Name}</a></h4>
+                        <p class="item-quantity">Quantity: ${item.Quantity}</p>
+                        <p class="item-price">Price: ₹${item.Price}</p>
+                    </div>
+                `;
+            });
+
+            foodItemHTML += `
+                <div class="food-category-item">
+                    <h4>Total Amount : ₹ ${TotalAmount}</h4>
+                </div>
+            </div>`; // Close the main food-category-item container
+
+            // Insert the HTML into the .food-items-row
+            foodItemsRow.innerHTML = foodItemHTML;
+
+            generateQRCode(TotalAmount);
+        }
+        function generateQRCode(TotalAmount) {
+            const qrcodeContainer = document.getElementById(`qrcode`);
+
+            if(qrcodeContainer.innerHTML != '')
+            {
+                qrcodeContainer.innerHTML = '';
+            }
+            else
+            {
+                // Generate and display the QR code
+                QRCode.toDataURL(String(TotalAmount))
+                    .then(function (url) {
+                        const img = document.createElement("img");
+                        img.src = url;
+                        qrcodeContainer.appendChild(img);
+                    })
+                    .catch(function (error) {
+                        console.error("Error generating QR Code:", error);
+                    });
+            }
+        }
+    
+        // Call the function to inject the food items when the page loads
+        loadFoodItems();
+    </script>
+    
 
     <!-- Start Footer 
     ============================================= -->

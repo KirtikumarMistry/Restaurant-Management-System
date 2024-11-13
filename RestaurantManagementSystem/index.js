@@ -30,6 +30,6 @@ app.listen(port , () => {
     console.log(`Server is running on port ${port}`);
 });
 const router=require('./Backend/routers/route')
-app.use(router)
+app.use(router);
 
 

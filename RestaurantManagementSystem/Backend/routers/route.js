@@ -14,7 +14,7 @@ const GetItem = require('../controllers/GetItem');
 const { collection } = require("../models/db");
 const signup = require('../controllers/Signup');
 const orderplaced=require('../controllers/Orderplaced')
-const ordercompleted=require('../controllers/Ordercompleted')
+//const ordercompleted=require('../controllers/Ordercompleted');
 const Login=require('../controllers/Login')
 const Admin=require('../controllers/GetAdmin');
 const ManagerTable=require('../controllers/ManagerTable');
@@ -30,6 +30,7 @@ const EndTable = require('../controllers/EndTable');
 const Contact=require('../controllers/Contact');
 const ShowItems=require('../controllers/ShowItems');
 const GetOrder=require('../controllers/GetOrder');
+const BillingPage=require('../controllers/BillingPage');
 
 router.get('/', Home);
 router.get('/Home', Home);
@@ -57,6 +58,7 @@ router.put('/ManagerTable/EndTable', EndTable);
 router.get('/Contact', Contact);
 router.get(/^\/ShowItems(.+)/, ShowItems);
 router.get('/GetOrder/:Number', GetOrder);
+router.get(/^\/BillingPage[0-9a-zA-Z]*$/, BillingPage);
 
 router.get("/Login", (req, res) => {
     res.render('login', { 
@@ -83,6 +85,6 @@ router.get("/manager", (req, res) => {
 });
 
 router.post("/orderplaced", orderplaced);
-router.post("/ordercompleted", ordercompleted); 
+//router.post("/ordercompleted", ordercompleted); 
 
 module.exports = router;

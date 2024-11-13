@@ -68,8 +68,6 @@
                 <label for="tableName">Table Name:</label>
                 <input type="text" class="form-control" id="tableName" required>
             </div>
-            <!-- QR Code Display Area -->
-            <div id="qrcode"></div>
             <button id="submitButton" class="btn btn-primary" onclick=AddTable()>Add Table</button>
         </div>
 
@@ -155,7 +153,7 @@
         //     }, 3000);
         // }
         function generateQRCode(tableNumber) {
-            const text= `https://prfx8vjw-5000.inc1.devtunnels.ms/Food-Menu${tableNumber}`;
+            const text= `https://6ll8zxz9-5000.inc1.devtunnels.ms/Food-Menu${tableNumber}`;
             const qrcodeContainer = document.getElementById(`qrcode${tableNumber}`);
             const qrcodeurlContainer = document.getElementById(`qrcodeurl${tableNumber}`);
 

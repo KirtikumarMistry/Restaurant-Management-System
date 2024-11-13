@@ -1,6 +1,7 @@
 const Table=require('../models/Table')
 const Orders=require('../models/Order');
 const Order = require('../models/Order');
+const sendmail = require('../utils/Sendmail');
 const EndTable=async (req,res)=>{
     try{
         const {id}=req.body;
@@ -22,7 +23,7 @@ const EndTable=async (req,res)=>{
                     message:"Order is not End"
                 })
             }
-
+        // const info=await sendmail()
         return res.status(200).json({
             success:true,
             message:"Table is End Successfully"

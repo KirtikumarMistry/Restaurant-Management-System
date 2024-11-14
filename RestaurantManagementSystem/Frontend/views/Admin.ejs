@@ -23,11 +23,27 @@
                     <li><a href="manageItems">Manage Menu Items</a></li>
                 </ul>
             </div>
+<<<<<<< HEAD
         </nav>
         <h1 class="text-center heading-top">Restaurant Admin Dashboard</h1>
         <div class="metric-card">
             <h3>Total Revenue (Today)</h3>
             <p>₹<%= totalRevenueToday.toFixed(2) %></p>
+=======
+            <div class="toast-body">
+                Hello, world! This is a toast message.
+            </div>
+        </div> -->
+
+        <!-- Table Management -->
+        <h2>Manage Tables</h2>
+        <div id="addTableFormContainer">
+            <div class="form-group">
+                <label for="tableName">Table Name:</label>
+                <input type="text" class="form-control" id="tableName" required>
+            </div>
+            <button id="submitButton" class="btn btn-primary" onclick=AddTable()>Add Table</button>
+>>>>>>> d3b4206e7db979aa7bc5d70236ebb0dbe58c1086
         </div>
 
         <!-- Total Number of Tables Available / In Use -->
@@ -64,9 +80,56 @@
         crossorigin="anonymous"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
     <script>
+<<<<<<< HEAD
         function toggleNavbar() {
             const navbarNav = document.getElementById("navbarNav");
             navbarNav.classList.toggle("active");
+=======
+        // function showToast() {
+        //     const toastElement = document.getElementById('myToast');
+        //     const toast = new bootstrap.Toast(toastElement); // Create a Bootstrap toast instance
+
+        //     toastElement.style.display = 'block'; // Show the toast
+        //     toast.show(); // Show the toast
+
+        //     // Hide the toast after 1 second
+        //     setTimeout(() => {
+        //         toast.hide(); // Hide the toast
+        //         toastElement.style.display = 'none'; // Optional: set display to none after hiding
+        //     }, 3000);
+        // }
+        function generateQRCode(tableNumber) {
+            const text= `https://6ll8zxz9-5000.inc1.devtunnels.ms/Food-Menu${tableNumber}`;
+            const qrcodeContainer = document.getElementById(`qrcode${tableNumber}`);
+            const qrcodeurlContainer = document.getElementById(`qrcodeurl${tableNumber}`);
+
+            if(qrcodeContainer.innerHTML != '')
+            {
+                qrcodeurlContainer.href='';
+                qrcodeurlContainer.innerHTML='';
+                qrcodeContainer.innerHTML = '';
+            }
+            else
+            {
+                if (text.trim() === '') {
+                    alert("Please enter valid text to generate a QR code.");
+                    return;
+                }
+
+                // Generate and display the QR code
+                QRCode.toDataURL(text)
+                    .then(function (url) {
+                        const img = document.createElement("img");
+                        img.src = url;
+                        qrcodeurlContainer.href=text;
+                        qrcodeurlContainer.innerHTML=text;
+                        qrcodeContainer.appendChild(img);
+                    })
+                    .catch(function (error) {
+                        console.error("Error generating QR Code:", error);
+                    });
+            }
+>>>>>>> d3b4206e7db979aa7bc5d70236ebb0dbe58c1086
         }
         document.addEventListener("DOMContentLoaded", async () => {
     try {

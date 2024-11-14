@@ -14,7 +14,7 @@ const GetItem = require('../controllers/GetItem');
 const { collection } = require("../models/db");
 const signup = require('../controllers/Signup');
 const orderplaced=require('../controllers/Orderplaced')
-const ordercompleted=require('../controllers/Ordercompleted')
+//const ordercompleted=require('../controllers/Ordercompleted');
 const Login=require('../controllers/Login')
 const Admin=require('../controllers/GetAdmin');
 const ManagerTable=require('../controllers/ManagerTable');
@@ -30,9 +30,14 @@ const EndTable = require('../controllers/EndTable');
 const Contact=require('../controllers/Contact');
 const ShowItems=require('../controllers/ShowItems');
 const GetOrder=require('../controllers/GetOrder');
+<<<<<<< HEAD
 const OngoingTable=require('../controllers/OngoingTable')
 const ManageTable=require('../controllers/ManageTables')
 const ManageItems=require('../controllers/ManageItems');
+=======
+const BillingPage=require('../controllers/BillingPage');
+
+>>>>>>> d3b4206e7db979aa7bc5d70236ebb0dbe58c1086
 router.get('/', Home);
 router.get('/Home', Home);
 router.get('/Shop', Shop);
@@ -59,10 +64,15 @@ router.put('/ManagerTable/EndTable', EndTable);
 router.get('/Contact', Contact);
 router.get(/^\/ShowItems(.+)/, ShowItems);
 router.get('/GetOrder/:Number', GetOrder);
+<<<<<<< HEAD
 router.get('/OngoingTables',OngoingTable);
 router.get('/manageTables',ManageTable);
 router.get('/manageItems',ManageItems);
 router.get('/admin/dashboard-data',Admin)
+=======
+router.get(/^\/BillingPage[0-9a-zA-Z]*$/, BillingPage);
+
+>>>>>>> d3b4206e7db979aa7bc5d70236ebb0dbe58c1086
 router.get("/Login", (req, res) => {
     res.render('login', { 
         email: '', 
@@ -88,6 +98,6 @@ router.get("/manager", (req, res) => {
 });
 
 router.post("/orderplaced", orderplaced);
-router.post("/ordercompleted", ordercompleted); 
+//router.post("/ordercompleted", ordercompleted); 
 
 module.exports = router;

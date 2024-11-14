@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Restaurant Management System</title>
+    <link rel="stylesheet" href="/assets/css/admin.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <nav class="navbar">
+            <a  class="navbar-brand" href="/Admin">Admin Dashboard</a>
+            <button class="navbar-toggler" onclick="toggleNavbar()">☰</button>
+            <div class="navbar-menu" id="navbarNav">
+                <ul>
+                    <li><a href="OngoingTables">Ongoing Tables</a></li>
+                    <li><a href="manageTables">Manage Tables</a></li>
+                    <li><a href="manageItems">Manage Menu Items</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <h2 class="mt-5">Manage Tables</h2>
+        <div id="addTableFormContainer">
+            <div class="form-group">
+                <label for="tableName">Table Name:</label>
+                <input type="text" class="form-control" id="tableName" required>
+            </div>
+            <button id="submitButton" class="btn btn-primary" onclick="AddTable()">Add Table</button>
+        </div>
+
+        <h3 class="mt-4">Existing Tables</h3>
+        <ul id="tablesList" class="list-group">
+            <% tables.forEach(table => { %>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>Table Number: <%= table.Number %></span>
+                    <span>Total Revenue: <%= table.Total_Revenue %></span>
+                    <span>Status: <%= table.Status %></span>
+                    <div>
+                        <button class="btn btn-primary btn-sm qrgenerate" data-id="<%= table._id %>"  onclick="generateQRCode('<%= table.Number %>')">QR code</button>
+                        <button class="btn btn-danger btn-sm deleteTable" data-id="<%= table._id %>">Delete</button>
+                        <button class="btn btn-warning btn-sm updateTable" data-id="<%= table._id %>"
+                            data-number="<%= table.Number %>" data-status="<%= table.Status %>">Update</button>
+                    </div>
+                </li>
+                <a href="" id="qrcodeurl<%= table.Number %>" target="_blank"></a>
+                <div id="qrcode<%= table.Number %>"></div>
+            <% }) %>
+        </ul>
+    </div>
+
+    <script>
+        function toggleNavbar() {
+            const navbarNav = document.getElementById("navbarNav");
+            navbarNav.classList.toggle("active");
+        }
+
+        async function AddTable() {
+            const Table = document.getElementById("tableName").value;
+            const res = await fetch("/admin/AddTable", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ Number: Table })
+            })
+            const data = await res.json();
+            if (data.success) {
+                alert(data.message);
+                window.location.reload();
+            } else {
+                alert(data.message);
+            }
+        }
+
+        // Handle deleting tables
+        document.querySelectorAll('.deleteTable').forEach(button => {
+            button.addEventListener('click', function () {
+                const tableId = this.getAttribute('data-id');
+                fetch(`/admin/tables/${tableId}`, {
+                    method: 'DELETE',
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert(data.message);
+                            window.location.reload();
+                        } else {
+                            alert(data.message);
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
+        });
+
+        // Handle updating tables
+        document.querySelectorAll('.updateTable').forEach(button => {
+            button.addEventListener('click', function () {
+                const tableId = this.getAttribute('data-id');
+                const newName = prompt("Enter new table name:", this.getAttribute('data-name'));
+                if (newName) {
+                    fetch(`/admin/tables/${tableId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ Number: newName })
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert(data.message);
+                                window.location.reload();
+                            } else {
+                                alert(data.message);
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
+                }
+            });
+        });
+
+        function generateQRCode(tableNumber) {
+            const text = `https://prfx8vjw-5000.inc1.devtunnels.ms/Food-Menu${tableNumber}`;
+            const qrcodeContainer = document.getElementById(`qrcode${tableNumber}`);
+            const qrcodeurlContainer = document.getElementById(`qrcodeurl${tableNumber}`);
+
+            if (qrcodeContainer.innerHTML !== '') {
+                qrcodeurlContainer.href = '';
+                qrcodeurlContainer.innerHTML = '';
+                qrcodeContainer.innerHTML = '';
+            } else {
+                if (text.trim() === '') {
+                    alert("Please enter valid text to generate a QR code.");
+                    return;
+                }
+
+                QRCode.toDataURL(text)
+                    .then(function (url) {
+                        const img = document.createElement("img");
+                        img.src = url;
+                        qrcodeurlContainer.href = text;
+                        qrcodeurlContainer.innerHTML = text;
+                        qrcodeContainer.appendChild(img);
+                    })
+                    .catch(function (error) {
+                        console.error("Error generating QR Code:", error);
+                    });
+            }
+        }
+    </script>
+</body>
+
+</html>

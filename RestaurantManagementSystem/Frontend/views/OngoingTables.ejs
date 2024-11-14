@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ongoing Tables - Restaurant Management System</title>
+    <link rel="stylesheet" href="/assets/css/admin.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <nav class="navbar">
+            <a  class="navbar-brand" href="/Admin">Admin Dashboard</a>
+            <button class="navbar-toggler" onclick="toggleNavbar()">☰</button>
+            <div class="navbar-menu" id="navbarNav">
+                <ul>
+                    <li><a href="OngoingTables">Ongoing Tables</a></li>
+                    <li><a href="manageTables">Manage Tables</a></li>
+                    <li><a href="manageItems">Manage Menu Items</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <h1 class="text-center heading-top">Ongoing Tables</h1>
+        <ul id="ongoingTablesList" class="list-group">
+            <% ongoingTables.forEach(table => { %>
+                <li class="list-group-item d-flex flex-column">
+                    <div class="table-details d-flex justify-content-between align-items-center">
+                        <div>
+                            <span><strong>Table Number:</strong> <%= table.Table_Number %></span><br>
+                            <span><strong>Status:</strong> <%= true %></span><br>
+                            <span><strong>Total Quantity:</strong> <%= table.Total_Quantity %></span><br>
+                            <span><strong>Total Revenue:</strong> ₹<%= table.Total_Amount %></span>
+                        </div>
+                        <div>
+                            <a href="/ShowItems<%= table.Table_Number %>">
+                                <button class="btn btn-info btn-sm mr-2 toggleItems" data-id="<%= table._id %>">Show Items</button>
+                            </a>
+                            <button class="btn btn-danger btn-sm endTable" data-id="<%= table._id %>" onclick="EndTable(event)">CheckOut</button>
+                        </div>
+                    </div>
+                </li>
+            <% }) %>
+        </ul>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <script>
+        async function EndTable(event) {
+            const id = event.target.getAttribute('data-id');
+            const res = await fetch('/admin/EndTable', {
+                method: "PUT",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id })
+            });
+            const data = await res.json();
+            if(data.success) {
+                alert(data.message);
+                window.location.reload();
+            } else {
+                alert(data.message);
+            }
+        }
+    </script>
+</body>
+</html>

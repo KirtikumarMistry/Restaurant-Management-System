@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Restaurant Management System</title>
+    <link rel="stylesheet" href="/assets/css/admin.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <nav class="navbar">
+            <a  class="navbar-brand" href="/Admin">Admin Dashboard</a>
+            <button class="navbar-toggler" onclick="toggleNavbar()">☰</button>
+            <div class="navbar-menu" id="navbarNav">
+                <ul>
+                    <li><a href="OngoingTables">Ongoing Tables</a></li>
+                    <li><a href="manageTables">Manage Tables</a></li>
+                    <li><a href="manageItems">Manage Menu Items</a></li>
+                </ul>
+            </div>
+        </nav>
+        <!-- Item Management -->
+        <h2 class="mt-5">Manage Menu Items</h2>
+        <div id="addItemFormContainer">
+            <div class="form-group">
+                <label for="itemName">Item Name:</label>
+                <input type="text" class="form-control" id="itemName" required>
+            </div>
+            <div class="form-group">
+                <label for="itemPrice">Item Price:</label>
+                <input type="number" class="form-control" id="itemPrice" required>
+            </div>
+            <div class="form-group">
+                <label for="itemDescription">Item Description:</label>
+                <textarea class="form-control" id="itemDescription" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="itemImageLink">Image Link:</label>
+                <input type="url" class="form-control" id="itemImageLink" required>
+            </div>
+            <button id="submitItemButton" class="btn btn-primary" onclick="ItemAdd()">Add Item</button>
+        </div>
+
+        <h3 class="mt-4">Existing Menu Items</h3>
+        <ul id="itemsList" class="list-group">
+            <% items.forEach(item => { %>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>
+                        <%= item.Name %> - ₹<%= item.Price.toFixed(2) %>
+                    </span>
+                    <div>
+                        <button class="btn btn-danger btn-sm deleteItem" data-id="<%= item._id %>">Delete</button>
+                        <button class="btn btn-warning btn-sm updateItem" data-id="<%= item._id %>"
+                            data-name="<%= item.name %>" data-price="<%= item.price %>">Update</button>
+                    </div>
+                </li>
+            <% }) %>
+        </ul>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <script>
+        async function ItemAdd() {
+            const Name = document.getElementById('itemName').value;
+            const Price = document.getElementById('itemPrice').value;
+            const Description = document.getElementById('itemDescription').value;
+            const Image = document.getElementById('itemImageLink').value;
+
+            fetch('/admin/AddItem', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ Name: Name, Price: Price, Description: Description, Image: Image })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message)
+                    window.location.reload()
+                } else {
+                    alert(data.message)
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Handle deleting items
+        document.querySelectorAll('.deleteItem').forEach(button => {
+            button.addEventListener('click', function () {
+                const itemId = this.getAttribute('data-id');
+                fetch(`/admin/items/${itemId}`, {
+                    method: 'DELETE',
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message)
+                        window.location.reload()
+                    } else {
+                        alert(data.message)
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        });
+
+        // Handle updating items
+        document.querySelectorAll('.updateItem').forEach(button => {
+            button.addEventListener('click', function () {
+                const itemId = this.getAttribute('data-id');
+                const Name = prompt("Enter new item name:", this.getAttribute('data-name'));
+                const Price = prompt("Enter new item price:", this.getAttribute('data-price'));
+                const Description = prompt("Enter new item Description:", this.getAttribute('data-price'));
+                const Image = prompt("Enter new item image:", this.getAttribute('data-price'));
+                if (Name || Price || Description || Image) {
+                    fetch(`/admin/items/${itemId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ Name, Price, Description, Image })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert(data.message)
+                            window.location.reload(data.message)
+                        } else {
+                            alert(data.message)
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

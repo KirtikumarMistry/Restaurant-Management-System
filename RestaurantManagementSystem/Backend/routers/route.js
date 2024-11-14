@@ -25,12 +25,14 @@ const UpdatedTable=require('../controllers/UpdateTable')
 const DeleteItem=require('../controllers/DeleteItem');
 const UpdateItem = require('../controllers/UpdateItem');
 const AddOrder=require('../controllers/AddOrder');
-const OngoingTable = require('../controllers/OngoingTables');
+const OngoingTables = require('../controllers/OngoingTables');
 const EndTable = require('../controllers/EndTable');
 const Contact=require('../controllers/Contact');
 const ShowItems=require('../controllers/ShowItems');
 const GetOrder=require('../controllers/GetOrder');
-
+const OngoingTable=require('../controllers/OngoingTable')
+const ManageTable=require('../controllers/ManageTables')
+const ManageItems=require('../controllers/ManageItems');
 router.get('/', Home);
 router.get('/Home', Home);
 router.get('/Shop', Shop);
@@ -51,13 +53,16 @@ router.put('/admin/tables/:tableId',UpdatedTable)
 router.delete('/admin/items/:itemId',DeleteItem)
 router.put('/admin/items/:itemId',UpdateItem)
 router.post('/AddOrder', AddOrder);
-router.get('/admin/ongoingTables',OngoingTable)
+router.get('/admin/ongoingTables',OngoingTables)
 router.put('/admin/EndTable',EndTable)
 router.put('/ManagerTable/EndTable', EndTable);
 router.get('/Contact', Contact);
 router.get(/^\/ShowItems(.+)/, ShowItems);
 router.get('/GetOrder/:Number', GetOrder);
-
+router.get('/OngoingTables',OngoingTable);
+router.get('/manageTables',ManageTable);
+router.get('/manageItems',ManageItems);
+router.get('/admin/dashboard-data',Admin)
 router.get("/Login", (req, res) => {
     res.render('login', { 
         email: '', 

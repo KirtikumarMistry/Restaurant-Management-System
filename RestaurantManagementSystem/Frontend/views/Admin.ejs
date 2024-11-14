@@ -5,166 +5,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Restaurant Management System</title>
+    <link rel="stylesheet" href="/assets/css/admin.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="admin.css">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
 </head>
 
 <body>
+    <div class="container mt-5">
+        <nav class="navbar">
+            <a  class="navbar-brand" href="admin/dashboard-data">Admin Dashboard</a>
+            <button class="navbar-toggler" onclick="toggleNavbar()">☰</button>
+            <div class="navbar-menu" id="navbarNav">
+                <ul>
+                    <li><a href="OngoingTables">Ongoing Tables</a></li>
+                    <li><a href="manageTables">Manage Tables</a></li>
+                    <li><a href="manageItems">Manage Menu Items</a></li>
+                </ul>
+            </div>
+        </nav>
+        <h1 class="text-center heading-top">Restaurant Admin Dashboard</h1>
+        <div class="metric-card">
+            <h3>Total Revenue (Today)</h3>
+            <p>₹<%= totalRevenueToday.toFixed(2) %></p>
+        </div>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <a class="navbar-brand" href="#">Admin Dashboard</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#ongoingTablesSection">Ongoing Tables</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#manageTablesSection">Manage Tables</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#manageItemsSection">Manage Menu Items</a>
-                </li>
+        <!-- Total Number of Tables Available / In Use -->
+        <div class="metric-card">
+            <h3>Total Tables In Use / Available</h3>
+            <p><%= tablesInUse %> / <%= totalTables %></p>
+        </div>
+
+        <!-- Average Order Value -->
+        <div class="metric-card">
+            <h3>Average Order Value</h3>
+            <p>₹<%= averageOrderValue.toFixed(2) %></p>
+        </div>
+
+        <!-- Tables with High Revenue -->
+        <div class="metric-card">
+            <h3>Top Revenue Tables</h3>
+            <ul>
+                <% top_rev.forEach(table => { %>
+                    <li>Table <%= table.number %>: ₹<%= table.revenue.toFixed(2) %></li>
+                <% }) %>
             </ul>
         </div>
-    </nav>
-
-    <div class="container mt-5">
-        <h1 class="text-center">Restaurant Admin Dashboard</h1>
-
-        <!-- Ongoing Tables Section -->
-        <section id="ongoingTablesSection">
-            <h2 class="mt-5">Ongoing Tables</h2>
-            <ul id="ongoingTablesList" class="list-group">
-                <% ongoingTables.forEach(table => { %>
-                    <li class="list-group-item d-flex flex-column">
-                        <div class="table-details d-flex justify-content-between align-items-center">
-                            <div>
-                                <span><strong>Table Number:</strong> <%= table.Table_Number %></span><br>
-                                <span><strong>Status:</strong> <%= table.Status %></span><br>
-                                <span><strong>Total Quantity:</strong> <%= table.Total_Quantity %></span><br>
-                                <span><strong>Total Revenue:</strong> ₹<%= table.Total_Amount %></span>
-                            </div>
-                            <div>
-                                <a href="/ShowItems<%= table.Table_Number %>">
-                                    <button class="btn btn-info btn-sm mr-2">Show Items</button>
-                                </a>
-                                <button class="btn btn-danger btn-sm" onclick="EndTable(event)" data-id="<%= table._id %>">CheckOut</button>
-                            </div>
-                        </div>
-                    </li>
-                <% }) %>
-            </ul>
-        </section>
-
-        <!-- Manage Tables Section -->
-        <section id="manageTablesSection">
-            <h2>Manage Tables</h2>
-            <div id="addTableFormContainer">
-                <div class="form-group">
-                    <label for="tableName">Table Name:</label>
-                    <input type="text" class="form-control" id="tableName" required>
-                </div>
-                <div id="qrcode"></div>
-                <button id="submitButton" class="btn btn-primary" onclick="AddTable()">Add Table</button>
-            </div>
-
-            <h3 class="mt-4">Existing Tables</h3>
-            <ul id="tablesList" class="list-group">
-                <% tables.forEach(table => { %>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span>Table Number: <%= table.Number %></span>
-                        <span>Total Revenue: <%= table.Total_Revenue %></span>
-                        <span>Status: <%= table.Status %></span>
-                        <div>
-                            <button class="btn btn-primary btn-sm" onclick="generateQRCode('<%= table.Number %>')">QR code</button>
-                            <button class="btn btn-danger btn-sm">Delete</button>
-                            <button class="btn btn-warning btn-sm">Update</button>
-                        </div>
-                    </li>
-                    <a href="" id="qrcodeurl<%= table.Number %>" target="_blank"></a>
-                    <div id="qrcode<%= table.Number %>"></div>
-                <% }) %>
-            </ul>
-        </section>
-
-        <!-- Manage Menu Items Section -->
-        <section id="manageItemsSection">
-            <h2 class="mt-5">Manage Menu Items</h2>
-            <div id="addItemFormContainer">
-                <div class="form-group">
-                    <label for="itemName">Item Name:</label>
-                    <input type="text" class="form-control" id="itemName" required>
-                </div>
-                <div class="form-group">
-                    <label for="itemPrice">Item Price:</label>
-                    <input type="number" class="form-control" id="itemPrice" required>
-                </div>
-                <div class="form-group">
-                    <label for="itemDescription">Item Description:</label>
-                    <textarea class="form-control" id="itemDescription" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="itemImageLink">Image Link:</label>
-                    <input type="url" class="form-control" id="itemImageLink" required>
-                </div>
-                <button id="submitItemButton" class="btn btn-primary" onclick="ItemAdd()">Add Item</button>
-            </div>
-
-            <h3 class="mt-4">Existing Menu Items</h3>
-            <ul id="itemsList" class="list-group">
-                <% items.forEach(item => { %>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span><%= item.Name %> - ₹<%= item.Price.toFixed(2) %></span>
-                        <div>
-                            <button class="btn btn-danger btn-sm">Delete</button>
-                            <button class="btn btn-warning btn-sm">Update</button>
-                        </div>
-                    </li>
-                <% }) %>
-            </ul>
-        </section>
     </div>
-
+    </div>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
     <script>
-        function generateQRCode(tableNumber) {
-            const text = `https://your-url/Food-Menu${tableNumber}`;
-            const qrcodeContainer = document.getElementById(`qrcode${tableNumber}`);
-            const qrcodeurlContainer = document.getElementById(`qrcodeurl${tableNumber}`);
-            
-            if (qrcodeContainer.innerHTML != '') {
-                qrcodeurlContainer.href = '';
-                qrcodeurlContainer.innerHTML = '';
-                qrcodeContainer.innerHTML = '';
-            } else {
-                QRCode.toDataURL(text).then(function (url) {
-                    const img = document.createElement("img");
-                    img.src = url;
-                    qrcodeurlContainer.href = text;
-                    qrcodeurlContainer.innerHTML = text;
-                    qrcodeContainer.appendChild(img);
-                }).catch(function (error) {
-                    console.error("Error generating QR Code:", error);
-                });
-            }
+        function toggleNavbar() {
+            const navbarNav = document.getElementById("navbarNav");
+            navbarNav.classList.toggle("active");
         }
+        document.addEventListener("DOMContentLoaded", async () => {
+    try {
+        const response = await fetch("/admin/dashboard-data"); // Fetch fresh data from the server
+        const data = await response.json();
 
-        async function AddTable() {
-            // Add table function code here
-        }
-        
-        async function ItemAdd() {
-            // Add item function code here
-        }
+        // Update metrics with the data received from the server
+        document.querySelector(".metric-card:nth-child(1) p").textContent = `₹${data.totalRevenueToday.toFixed(2)}`;
+        document.querySelector(".metric-card:nth-child(2) p").textContent = data.ongoingTables;
+        document.querySelector(".metric-card:nth-child(3) p").textContent = `${data.tablesInUse} / ${data.totalTables}`;
+        document.querySelector(".metric-card:nth-child(4) p").textContent = `₹${data.averageOrderValue.toFixed(2)}`;
 
-        async function EndTable(event) {
-            // End table function code here
-        }
+        const topTablesList = document.querySelector(".metric-card:nth-child(5) ul");
+        topTablesList.innerHTML = ""; // Clear the list
+        data.topRevenueTables.forEach(table => {
+            const li = document.createElement("li");
+            li.textContent = `Table ${table.number}: ₹${table.revenue.toFixed(2)}`;
+            topTablesList.appendChild(li);
+        });
+    } catch (error) {
+        console.error("Failed to fetch dashboard data:", error);
+    }
+});
     </script>
 </body>
+
 </html>
